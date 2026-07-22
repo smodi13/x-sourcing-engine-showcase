@@ -45,7 +45,7 @@
     {
       "key": "level_a_artifact_posts",
       "label": "Level A artifact Posts",
-      "note": "Posts carrying a Level A external product artifact. This is a Post count, not a company count.",
+      "note": "Final adjudicated Posts carrying an external product artifact. A Post count, not a company count. Intermediate stage recorded 737 strictly verifiable.",
       "value": 851
     },
     {
@@ -57,7 +57,7 @@
     {
       "key": "consolidated_companies_or_projects",
       "label": "Consolidated companies or projects",
-      "note": "Consolidated companies or projects. Not a count of incorporated startups.",
+      "note": "Final adjudicated consolidated companies or projects, not incorporated startups. Intermediate stage recorded 159.",
       "value": 153
     },
     {
@@ -87,9 +87,9 @@
   ],
   "llm_in_classification_or_disposition": false,
   "metric_notes": {
-    "consolidated_companies_or_projects": "Consolidated companies or projects. Not a count of incorporated startups.",
+    "consolidated_companies_or_projects": "Final adjudicated count of consolidated companies or projects (153). Not a count of incorporated startups. An intermediate consolidation stage recorded 159. See the metrics reconciliation.",
     "estimated_activity_usd": "Estimated API activity. Not reconciled against the external Developer Console.",
-    "level_a_artifact_posts": "Posts carrying a Level A external product artifact. This is a Post count, not a company count.",
+    "level_a_artifact_posts": "Final adjudicated count of Posts carrying an external product artifact (851). This is a Post count, not a company count. An intermediate processing stage recorded 737 Posts meeting the strict verifiable Level A bar. See the metrics reconciliation.",
     "net_new_posts": "Net-new Posts after within-run and cross-run deduplication.",
     "profiles_enriched": "Shortlisted profiles enriched. Not a count of funded companies.",
     "returned_post_resources": "Returned Post resources, not unique Posts."
@@ -127,7 +127,7 @@
     "unique_posts": 176
   },
   "provenance": {
-    "generated_at": "2026-07-22T16:31:39Z",
+    "generated_at": "2026-07-22T17:05:52Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "global_metrics.json, processing_summary.json, cost ledgers",
     "transform_version": "1.0.0"

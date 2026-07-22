@@ -1,0 +1,74 @@
+{
+  "canonical": {
+    "actionable_posts": 187,
+    "consolidated_projects": 153,
+    "definition": "851 counts broad-run Posts that carry at least one external product artifact link. 153 counts the final adjudicated consolidated companies or projects.",
+    "level_a_posts": 851,
+    "net_new_posts": 1166,
+    "source_label": "Final adjudicated metrics from the completed investment package summary.",
+    "stage": "final_adjudicated"
+  },
+  "definitions": {
+    "actionable_post": "A Post passing attribution and artifact checks (187).",
+    "artifact_post": "A Post carrying at least one external product artifact link (851).",
+    "consolidated_project": "A consolidated company or project, not an incorporated startup (153 final, 159 intermediate).",
+    "net_new_post": "A unique Post remaining after within-run and cross-run deduplication (1,166).",
+    "post_resource": "A returned Post resource from recent search. 1,279 returned resources, not unique Posts.",
+    "verifiable_level_a_post": "A Post whose artifact met the strict verifiable Level A bar (737)."
+  },
+  "intermediate": {
+    "consolidated_difference": 6,
+    "consolidated_difference_explanation": "The engine's intermediate stage records 159 actionable consolidated projects. The final package reports 153 after a final manual adjudication that merged near-duplicate projects and reclassified a small number of borderline non-company projects. The 6-project reduction is a final-adjudication step and is not itemized as a separate saved engine audit file, so the six records are not enumerated here to avoid guessing.",
+    "consolidated_projects": 159,
+    "definition": "737 counts broad-run Posts whose external artifact met the strict verifiable Level A bar after link resolution. 159 counts the actionable consolidated projects at the engine's intermediate consolidation stage (124 keep_verified plus 35 keep_for_enrichment).",
+    "level_a_difference": 114,
+    "level_a_difference_explanation": "The 114 difference is Posts that carry an external artifact link but whose artifact did not meet the strict verifiable Level A bar at the intermediate stage. 851 is the broader artifact-bearing Post count, 737 is the strict verifiable subset. Neither is an error; they measure different bars at different stages.",
+    "level_a_posts": 737,
+    "source_label": "Intermediate processing-stage outputs (global metrics and consolidated-company audit).",
+    "stage": "intermediate_processing"
+  },
+  "multi_query_note": "Per-query Post and actionable counts are attributed to each query and sum higher than the deduplicated run totals of 1,166 net-new Posts and 187 actionable Posts, because 68 Posts matched more than one query family. Query-level sums are never presented as deduplicated global totals.",
+  "multi_query_posts": 68,
+  "policy": [
+    "The public summary uses the final adjudicated metrics: 851 Level A artifact Posts and 153 consolidated companies or projects.",
+    "Intermediate artifacts (737 and 159) are earlier pipeline stages and are shown here for provenance, not as errors.",
+    "The 1,279 figure is returned Post resources, not a unique-Post count. The 851 figure is a Post count, not a company count. The 153 figure is consolidated projects, not incorporated startups. No specific count of unique engine-sourced companies is claimed beyond the verified public records."
+  ],
+  "provenance": {
+    "generated_at": "2026-07-22T17:05:52Z",
+    "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
+    "source_file": "global_metrics.json, artifact_evidence_audit.json, consolidated_companies.json, processing_summary.json, actionable_candidates.json",
+    "transform_version": "1.0.0"
+  },
+  "public_showcase": {
+    "aos_included_in_sanitized_records": false,
+    "aos_note": "AOS / Unicity Labs is not among the 122 broad-run records. It was surfaced by the same engine in the earlier pilot and targeted-enrichment comparison, and is presented separately as the featured investment-thesis page. Total candidate detail pages: 122 broad-run records plus 1 featured page equals 123.",
+    "candidate_detail_pages": 123,
+    "consolidation_key_note": "The public subset consolidates the 187 actionable Posts by normalized project-name slug. This is a simpler key than the engine's final adjudicated consolidation (repo, domain, or project plus author), so 122 is not a strict subtraction from 153.",
+    "derivation": {
+      "actionable_posts": 187,
+      "duplicate_project_posts_collapsed": 28,
+      "excluded_unnamed_posts": 37,
+      "formula": "187 actionable Posts - 37 without a project name - 28 same-project duplicates = 122 unique public records",
+      "named_posts": 150,
+      "unique_public_records": 122
+    },
+    "exclusion_count": 65,
+    "exclusion_reasons": [
+      {
+        "count": 37,
+        "detail": "Actionable Posts with no engine-normalized project name cannot be shown as a meaningful, safe public project row.",
+        "reason": "no_normalized_project_name"
+      },
+      {
+        "count": 28,
+        "detail": "Multiple actionable Posts describing the same project are collapsed to one public record by normalized-name slug.",
+        "reason": "same_project_duplicate_post"
+      }
+    ],
+    "featured_pages": 1,
+    "sanitized_records": 122,
+    "source_label": "Sanitized public subset derived from the 187 broad-run actionable Posts.",
+    "unique_sourced_projects_represented": 122
+  }
+}

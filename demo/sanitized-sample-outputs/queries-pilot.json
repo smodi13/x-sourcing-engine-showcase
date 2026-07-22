@@ -7,7 +7,7 @@
     "early_traction"
   ],
   "provenance": {
-    "generated_at": "2026-07-22T16:31:39Z",
+    "generated_at": "2026-07-22T17:05:52Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "config/queries.yaml",
     "transform_version": "1.0.0"

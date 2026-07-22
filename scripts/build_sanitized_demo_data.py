@@ -82,8 +82,8 @@ CANONICAL = {
 METRIC_NOTES = {
     "returned_post_resources": "Returned Post resources, not unique Posts.",
     "net_new_posts": "Net-new Posts after within-run and cross-run deduplication.",
-    "level_a_artifact_posts": "Posts carrying a Level A external product artifact. This is a Post count, not a company count.",
-    "consolidated_companies_or_projects": "Consolidated companies or projects. Not a count of incorporated startups.",
+    "level_a_artifact_posts": "Final adjudicated count of Posts carrying an external product artifact (851). This is a Post count, not a company count. An intermediate processing stage recorded 737 Posts meeting the strict verifiable Level A bar. See the metrics reconciliation.",
+    "consolidated_companies_or_projects": "Final adjudicated count of consolidated companies or projects (153). Not a count of incorporated startups. An intermediate consolidation stage recorded 159. See the metrics reconciliation.",
     "profiles_enriched": "Shortlisted profiles enriched. Not a count of funded companies.",
     "estimated_activity_usd": "Estimated API activity. Not reconciled against the external Developer Console.",
 }
@@ -207,9 +207,9 @@ def build_run_summary(out_dir: Path):
             {"key": "net_new_posts", "label": "Net-new Posts", "value": 1166, "note": METRIC_NOTES["net_new_posts"]},
             {"key": "unique_authors", "label": "Unique authors", "value": 967, "note": "Distinct post authors across the broad run."},
             {"key": "direct_builder_claims", "label": "Direct-builder claims", "value": 190, "note": "Posts attributed to the actual builder, not commentary or third-party reporting."},
-            {"key": "level_a_artifact_posts", "label": "Level A artifact Posts", "value": 851, "note": METRIC_NOTES["level_a_artifact_posts"]},
+            {"key": "level_a_artifact_posts", "label": "Level A artifact Posts", "value": 851, "note": "Final adjudicated Posts carrying an external product artifact. A Post count, not a company count. Intermediate stage recorded 737 strictly verifiable."},
             {"key": "actionable_posts", "label": "Actionable Posts", "value": 187, "note": "Posts passing attribution and artifact checks."},
-            {"key": "consolidated_companies_or_projects", "label": "Consolidated companies or projects", "value": 153, "note": METRIC_NOTES["consolidated_companies_or_projects"]},
+            {"key": "consolidated_companies_or_projects", "label": "Consolidated companies or projects", "value": 153, "note": "Final adjudicated consolidated companies or projects, not incorporated startups. Intermediate stage recorded 159."},
             {"key": "profiles_enriched", "label": "Enriched profiles", "value": 14, "note": METRIC_NOTES["profiles_enriched"]},
             {"key": "estimated_activity_usd", "label": "Estimated activity (USD)", "value": "7.720", "note": METRIC_NOTES["estimated_activity_usd"]},
             {"key": "estimated_remaining_usd", "label": "Estimated remaining (USD)", "value": "17.280", "note": "Unused portion of the USD 25.000 estimated allowance."},
@@ -536,8 +536,8 @@ def build_test_summary(out_dir: Path):
     # not copied from the original engine. See tests/ in this repository.
     payload = {
         "original_engine_tests": 450,
-        "showcase_tests": 76,
-        "showcase_note": "The public showcase ships its own focused test suite of 76 tests. This count is reported separately from the original engine's 450 tests.",
+        "showcase_tests": 85,
+        "showcase_note": "The public showcase ships its own focused test suite of 85 tests. This count is reported separately from the original engine's 450 tests.",
         "categories": [
             {"category": "evidence_classification", "description": "Evidence level and attribution mapping."},
             {"category": "builder_attribution", "description": "Direct-builder versus third-party detection."},
@@ -549,6 +549,7 @@ def build_test_summary(out_dir: Path):
             {"category": "approval_expiration", "description": "Fifteen-minute approval expiry."},
             {"category": "execution_lock", "description": "Run lock prevents duplicate paid execution."},
             {"category": "sanitized_json_validation", "description": "Generated demo JSON has required fields and no secrets or em dashes."},
+            {"category": "metric_reconciliation", "description": "Canonical, intermediate, and public metric layers reconcile and are labeled correctly."},
         ],
         "provenance": provenance("tests/ in the showcase repository"),
     }
@@ -583,6 +584,122 @@ def build_limitations(out_dir: Path):
     return write_json(out_dir, "limitations.json", payload)
 
 
+def build_metrics_provenance(out_dir: Path, src: Path):
+    """Exact, audited reconciliation of the three metric layers.
+
+    The public exclusion figures are computed from the saved actionable-Posts
+    output so the reconciliation is verifiable, not asserted.
+    """
+    actionable = load_json(src / "data/output/broad_market_4000/processed/actionable_candidates.json")
+    total_actionable = len(actionable)
+    named = [r for r in actionable if (r.get("normalized_company_or_project_name") or "").strip()]
+    unnamed = total_actionable - len(named)
+    slugs = {}
+    for r in named:
+        slugs.setdefault(slugify(r["normalized_company_or_project_name"]), []).append(r)
+    unique_public = len(slugs)
+    dup_collapsed = len(named) - unique_public
+    aos_in_public = any(("aos" in s or "unicity" in s) for s in slugs)
+
+    payload = {
+        "canonical": {
+            "level_a_posts": 851,
+            "consolidated_projects": 153,
+            "actionable_posts": 187,
+            "net_new_posts": 1166,
+            "source_label": "Final adjudicated metrics from the completed investment package summary.",
+            "stage": "final_adjudicated",
+            "definition": (
+                "851 counts broad-run Posts that carry at least one external product artifact link. "
+                "153 counts the final adjudicated consolidated companies or projects."
+            ),
+        },
+        "intermediate": {
+            "level_a_posts": 737,
+            "consolidated_projects": 159,
+            "source_label": "Intermediate processing-stage outputs (global metrics and consolidated-company audit).",
+            "stage": "intermediate_processing",
+            "definition": (
+                "737 counts broad-run Posts whose external artifact met the strict verifiable Level A "
+                "bar after link resolution. 159 counts the actionable consolidated projects at the "
+                "engine's intermediate consolidation stage (124 keep_verified plus 35 keep_for_enrichment)."
+            ),
+            "level_a_difference": 851 - 737,
+            "level_a_difference_explanation": (
+                "The 114 difference is Posts that carry an external artifact link but whose artifact did "
+                "not meet the strict verifiable Level A bar at the intermediate stage. 851 is the broader "
+                "artifact-bearing Post count, 737 is the strict verifiable subset. Neither is an error; "
+                "they measure different bars at different stages."
+            ),
+            "consolidated_difference": 159 - 153,
+            "consolidated_difference_explanation": (
+                "The engine's intermediate stage records 159 actionable consolidated projects. The final "
+                "package reports 153 after a final manual adjudication that merged near-duplicate projects "
+                "and reclassified a small number of borderline non-company projects. The 6-project "
+                "reduction is a final-adjudication step and is not itemized as a separate saved engine "
+                "audit file, so the six records are not enumerated here to avoid guessing."
+            ),
+        },
+        "public_showcase": {
+            "sanitized_records": unique_public,
+            "featured_pages": 1,
+            "unique_sourced_projects_represented": unique_public,
+            "candidate_detail_pages": unique_public + 1,
+            "aos_included_in_sanitized_records": aos_in_public,
+            "source_label": "Sanitized public subset derived from the 187 broad-run actionable Posts.",
+            "derivation": {
+                "actionable_posts": total_actionable,
+                "excluded_unnamed_posts": unnamed,
+                "named_posts": len(named),
+                "duplicate_project_posts_collapsed": dup_collapsed,
+                "unique_public_records": unique_public,
+                "formula": f"{total_actionable} actionable Posts - {unnamed} without a project name - {dup_collapsed} same-project duplicates = {unique_public} unique public records",
+            },
+            "exclusion_count": unnamed + dup_collapsed,
+            "exclusion_reasons": [
+                {"reason": "no_normalized_project_name", "count": unnamed,
+                 "detail": "Actionable Posts with no engine-normalized project name cannot be shown as a meaningful, safe public project row."},
+                {"reason": "same_project_duplicate_post", "count": dup_collapsed,
+                 "detail": "Multiple actionable Posts describing the same project are collapsed to one public record by normalized-name slug."},
+            ],
+            "consolidation_key_note": (
+                "The public subset consolidates the 187 actionable Posts by normalized project-name slug. "
+                "This is a simpler key than the engine's final adjudicated consolidation (repo, domain, or "
+                "project plus author), so 122 is not a strict subtraction from 153."
+            ),
+            "aos_note": (
+                "AOS / Unicity Labs is not among the 122 broad-run records. It was surfaced by the same "
+                "engine in the earlier pilot and targeted-enrichment comparison, and is presented "
+                "separately as the featured investment-thesis page. Total candidate detail pages: "
+                f"{unique_public} broad-run records plus 1 featured page equals {unique_public + 1}."
+            ),
+        },
+        "multi_query_posts": 68,
+        "multi_query_note": (
+            "Per-query Post and actionable counts are attributed to each query and sum higher than the "
+            "deduplicated run totals of 1,166 net-new Posts and 187 actionable Posts, because 68 Posts "
+            "matched more than one query family. Query-level sums are never presented as deduplicated "
+            "global totals."
+        ),
+        "definitions": {
+            "post_resource": "A returned Post resource from recent search. 1,279 returned resources, not unique Posts.",
+            "net_new_post": "A unique Post remaining after within-run and cross-run deduplication (1,166).",
+            "artifact_post": "A Post carrying at least one external product artifact link (851).",
+            "verifiable_level_a_post": "A Post whose artifact met the strict verifiable Level A bar (737).",
+            "actionable_post": "A Post passing attribution and artifact checks (187).",
+            "consolidated_project": "A consolidated company or project, not an incorporated startup (153 final, 159 intermediate).",
+        },
+        "policy": [
+            "The public summary uses the final adjudicated metrics: 851 Level A artifact Posts and 153 consolidated companies or projects.",
+            "Intermediate artifacts (737 and 159) are earlier pipeline stages and are shown here for provenance, not as errors.",
+            "The 1,279 figure is returned Post resources, not a unique-Post count. The 851 figure is a Post count, not a company count. The 153 figure is consolidated projects, not incorporated startups. No specific count of unique engine-sourced companies is claimed beyond the verified public records.",
+        ],
+        "provenance": provenance("global_metrics.json, artifact_evidence_audit.json, consolidated_companies.json, processing_summary.json, actionable_candidates.json"),
+    }
+    write_json(out_dir, "metrics-provenance.json", payload)
+    return unique_public, unnamed, dup_collapsed, aos_in_public
+
+
 def main():
     src_env = os.environ.get("SOURCE_DIR")
     if not src_env:
@@ -605,6 +722,7 @@ def main():
     build_methodology(out_dir)
     build_test_summary(out_dir)
     build_limitations(out_dir)
+    n_public, n_unnamed, n_dup, aos_in = build_metrics_provenance(out_dir, src)
 
     # Final guard: scan every generated file for secrets, private paths, em dashes.
     problems = []

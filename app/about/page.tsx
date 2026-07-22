@@ -84,7 +84,22 @@ export default function AboutPage() {
       </section>
 
       <section className="stack">
-        <h2>6. Source</h2>
+        <h2>6. Metric provenance</h2>
+        <p className="muted small">
+          The public summary uses the final adjudicated metrics from the completed run. Intermediate
+          pipeline stages recorded different counts, and the public results table is a sanitized
+          subset. The full reconciliation of the final, intermediate, and public figures is
+          documented in the metrics reconciliation.
+        </p>
+        <div className="btn-row">
+          <a className="btn secondary" href={`${GITHUB_URL}/blob/main/docs/metrics-reconciliation.md`} target="_blank" rel="noopener noreferrer">
+            Metrics reconciliation
+          </a>
+        </div>
+      </section>
+
+      <section className="stack">
+        <h2>7. Source</h2>
         <p className="muted small">
           The sanitized code and this demo are published in the public showcase repository.
         </p>

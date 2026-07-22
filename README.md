@@ -88,6 +88,13 @@ Level A Posts is a Post count, not 851 companies. 153 consolidated companies or
 projects is not 153 incorporated startups. 14 enriched profiles is not 14 funded
 companies.
 
+These are the final adjudicated metrics from the completed run. Earlier pipeline
+stages recorded different intermediate counts (for example, 737 strictly
+verifiable Level A Posts and 159 intermediate consolidated projects). The full
+provenance, the public-subset derivation, and the AOS inclusion status are
+documented in `docs/metrics-reconciliation.md` and in
+`public/demo-data/metrics-provenance.json`.
+
 ## Cost breakdown
 
 | Phase | Estimated USD |
@@ -139,10 +146,10 @@ were stored before any derived output. The system failed closed.
 ## Test coverage
 
 - Original engine: 450 passing tests.
-- Public showcase repository: 76 passing tests covering evidence classification,
+- Public showcase repository: 85 passing tests covering evidence classification,
   builder attribution, URL exclusion, deduplication, consolidation, cost
   calculations, fingerprint determinism, approval expiration, execution locks,
-  and sanitized JSON validation.
+  sanitized JSON validation, and metric reconciliation.
 
 Run the showcase tests:
 

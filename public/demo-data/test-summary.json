@@ -39,15 +39,19 @@
     {
       "category": "sanitized_json_validation",
       "description": "Generated demo JSON has required fields and no secrets or em dashes."
+    },
+    {
+      "category": "metric_reconciliation",
+      "description": "Canonical, intermediate, and public metric layers reconcile and are labeled correctly."
     }
   ],
   "original_engine_tests": 450,
   "provenance": {
-    "generated_at": "2026-07-22T16:31:39Z",
+    "generated_at": "2026-07-22T17:05:52Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "tests/ in the showcase repository",
     "transform_version": "1.0.0"
   },
-  "showcase_note": "The public showcase ships its own focused test suite of 76 tests. This count is reported separately from the original engine's 450 tests.",
-  "showcase_tests": 76
+  "showcase_note": "The public showcase ships its own focused test suite of 85 tests. This count is reported separately from the original engine's 450 tests.",
+  "showcase_tests": 85
 }

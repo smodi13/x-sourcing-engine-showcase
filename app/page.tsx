@@ -48,8 +48,10 @@ export default function HomePage() {
             <div className="eyebrow">Final run statistics</div>
             <h2>Broad-market run at a glance</h2>
             <p className="muted small">
-              Hover any card for its exact definition. Counts describe Posts and consolidated
-              projects, not incorporated startups or verified companies.
+              These are the final adjudicated metrics from the completed sourcing run. Hover any card
+              for its exact definition. Counts describe Posts and consolidated projects, not
+              incorporated startups or verified companies. Earlier pipeline stages recorded different
+              intermediate counts, explained on the <Link href="/results">results page</Link>.
             </p>
             <div className="grid cols-5">
               {run.headline_metrics.map((m) => (

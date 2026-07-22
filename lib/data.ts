@@ -215,6 +215,54 @@ export interface Limitations {
   provenance: Provenance;
 }
 
+export interface MetricsProvenance {
+  canonical: {
+    level_a_posts: number;
+    consolidated_projects: number;
+    actionable_posts: number;
+    net_new_posts: number;
+    source_label: string;
+    stage: string;
+    definition: string;
+  };
+  intermediate: {
+    level_a_posts: number;
+    consolidated_projects: number;
+    source_label: string;
+    stage: string;
+    definition: string;
+    level_a_difference: number;
+    level_a_difference_explanation: string;
+    consolidated_difference: number;
+    consolidated_difference_explanation: string;
+  };
+  public_showcase: {
+    sanitized_records: number;
+    featured_pages: number;
+    unique_sourced_projects_represented: number;
+    candidate_detail_pages: number;
+    aos_included_in_sanitized_records: boolean;
+    source_label: string;
+    derivation: {
+      actionable_posts: number;
+      excluded_unnamed_posts: number;
+      named_posts: number;
+      duplicate_project_posts_collapsed: number;
+      unique_public_records: number;
+      formula: string;
+    };
+    exclusion_count: number;
+    exclusion_reasons: { reason: string; count: number; detail: string }[];
+    consolidation_key_note: string;
+    aos_note: string;
+  };
+  multi_query_posts: number;
+  multi_query_note: string;
+  definitions: Record<string, string>;
+  policy: string[];
+  provenance: Provenance;
+}
+
 // ---------------------------------------------------------------------------
 // Loaders
 // ---------------------------------------------------------------------------
@@ -230,6 +278,7 @@ export const getEvidenceFramework = () => readJson<EvidenceFramework>("evidence-
 export const getMethodology = () => readJson<Methodology>("methodology.json");
 export const getTestSummary = () => readJson<TestSummary>("test-summary.json");
 export const getLimitations = () => readJson<Limitations>("limitations.json");
+export const getMetricsProvenance = () => readJson<MetricsProvenance>("metrics-provenance.json");
 
 export function getCandidateBySlug(slug: string): Candidate | FeaturedCandidate | null {
   const file = getCandidatesFile();
