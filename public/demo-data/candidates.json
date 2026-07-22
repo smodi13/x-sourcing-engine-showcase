@@ -4618,7 +4618,7 @@
     "Only engine-derived classifications plus public permalinks and public artifact URLs are shown."
   ],
   "provenance": {
-    "generated_at": "2026-07-22T17:26:41Z",
+    "generated_at": "2026-07-22T17:41:36Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "actionable_candidates.json",
     "transform_version": "1.0.0"

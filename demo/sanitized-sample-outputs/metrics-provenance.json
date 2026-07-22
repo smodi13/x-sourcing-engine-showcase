@@ -144,7 +144,7 @@
     "The 1,279 figure is returned Post resources, not a unique-Post count. No count of incorporated startups or of unique engine-sourced companies is claimed."
   ],
   "provenance": {
-    "generated_at": "2026-07-22T17:26:41Z",
+    "generated_at": "2026-07-22T17:41:36Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "global_metrics.json, artifact_evidence_audit.json, consolidated_companies.json, processing_summary.json, actionable_candidates.json",
     "transform_version": "1.0.0"

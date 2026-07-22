@@ -97,7 +97,7 @@
   ],
   "ownership_note": "An artifact alone does not prove ownership. The engine checks the relationship between the author and the artifact organization before treating an artifact as the author's own.",
   "provenance": {
-    "generated_at": "2026-07-22T17:26:41Z",
+    "generated_at": "2026-07-22T17:41:36Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "evidence.py, classify.py, ownership.py",
     "transform_version": "1.0.0"

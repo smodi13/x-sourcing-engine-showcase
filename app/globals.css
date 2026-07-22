@@ -150,6 +150,26 @@ p { margin: 0 0 1rem; }
   background: var(--info); color: #fff; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.04em;
   padding: 0.15rem 0.45rem; border-radius: 4px; text-transform: uppercase; white-space: nowrap;
 }
+/* Interactive replay badge (home page only) */
+.replay .badge-button {
+  border: 1px solid transparent; cursor: pointer; font-family: inherit; line-height: 1.4;
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  transition: background 0.15s ease, filter 0.15s ease;
+}
+.replay .badge-button:hover { filter: brightness(1.12); }
+.replay .badge-button:active { filter: brightness(0.95); }
+.replay .chevron { font-size: 0.7em; transition: transform 0.15s ease; display: inline-block; }
+.replay .chevron.up { transform: rotate(180deg); }
+.replay-body { display: flex; flex-direction: column; gap: 0.35rem; }
+.replay-expanded {
+  font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; max-width: 68ch;
+  animation: replay-fade 0.15s ease;
+}
+@keyframes replay-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .replay .chevron, .replay .badge-button { transition: none; }
+  .replay-expanded { animation: none; }
+}
 
 /* Sections + cards */
 .section { padding: 2.5rem 0; }

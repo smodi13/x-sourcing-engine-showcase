@@ -20,7 +20,7 @@ export default function HomePage() {
               run.
             </p>
           </div>
-          <ReplayNotice />
+          <ReplayNotice expandable />
           <div className="btn-row">
             <Link className="btn" href="/results">Explore the sourcing run</Link>
             <Link className="btn secondary" href="/methodology">Review methodology</Link>

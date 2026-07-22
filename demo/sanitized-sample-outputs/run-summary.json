@@ -136,7 +136,7 @@
     "unique_posts": 176
   },
   "provenance": {
-    "generated_at": "2026-07-22T17:26:41Z",
+    "generated_at": "2026-07-22T17:41:36Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "global_metrics.json, processing_summary.json, cost ledgers",
     "transform_version": "1.0.0"

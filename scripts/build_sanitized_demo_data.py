@@ -540,8 +540,8 @@ def build_test_summary(out_dir: Path):
     # not copied from the original engine. See tests/ in this repository.
     payload = {
         "original_engine_tests": 450,
-        "showcase_tests": 88,
-        "showcase_note": "The public showcase ships its own focused test suite of 88 tests. This count is reported separately from the original engine's 450 tests.",
+        "showcase_tests": 95,
+        "showcase_note": "The public showcase ships its own focused test suite of 95 tests. This count is reported separately from the original engine's 450 tests.",
         "categories": [
             {"category": "evidence_classification", "description": "Evidence level and attribution mapping."},
             {"category": "builder_attribution", "description": "Direct-builder versus third-party detection."},

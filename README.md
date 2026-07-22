@@ -159,7 +159,7 @@ were stored before any derived output. The system failed closed.
 ## Test coverage
 
 - Original engine: 450 passing tests.
-- Public showcase repository: 88 passing tests covering evidence classification,
+- Public showcase repository: 95 passing tests covering evidence classification,
   builder attribution, URL exclusion, deduplication, consolidation, cost
   calculations, fingerprint determinism, approval expiration, execution locks,
   sanitized JSON validation, and metric terminology and reconciliation.
