@@ -11,7 +11,7 @@
   ],
   "count": 20,
   "provenance": {
-    "generated_at": "2026-07-22T17:05:52Z",
+    "generated_at": "2026-07-22T17:26:41Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "query_metrics.json, count_metrics.json",
     "transform_version": "1.0.0"

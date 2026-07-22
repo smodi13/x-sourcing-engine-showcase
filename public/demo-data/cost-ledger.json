@@ -61,7 +61,7 @@
     }
   ],
   "provenance": {
-    "generated_at": "2026-07-22T17:05:52Z",
+    "generated_at": "2026-07-22T17:26:41Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "broad_run_cost_ledger.json, count_cost_ledger.json, enrichment_cost_ledger.json, pilot_cost_ledger.json",
     "transform_version": "1.0.0"

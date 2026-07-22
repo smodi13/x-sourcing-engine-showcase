@@ -216,39 +216,47 @@ export interface Limitations {
 }
 
 export interface MetricsProvenance {
-  canonical: {
-    level_a_posts: number;
-    consolidated_projects: number;
-    actionable_posts: number;
+  counts: {
     net_new_posts: number;
-    source_label: string;
-    stage: string;
-    definition: string;
+    artifact_bearing_posts: number;
+    strict_level_a_posts: number;
+    direct_builder_claims: number;
+    actionable_posts: number;
+    engine_consolidated_projects: number;
+    analyst_adjudicated_projects: number;
+    public_broad_run_records: number;
+    featured_analysis_pages: number;
+    total_detail_pages: number;
   };
-  intermediate: {
-    level_a_posts: number;
-    consolidated_projects: number;
-    source_label: string;
-    stage: string;
-    definition: string;
-    level_a_difference: number;
-    level_a_difference_explanation: string;
-    consolidated_difference: number;
-    consolidated_difference_explanation: string;
+  count_definitions: Record<
+    string,
+    { value: number; stage: string; definition: string; source_label: string }
+  >;
+  artifact_vs_level_a: {
+    artifact_bearing_posts: number;
+    strict_level_a_posts: number;
+    difference: number;
+    explanation: string;
+  };
+  engine_vs_analyst_projects: {
+    engine_consolidated_projects: number;
+    analyst_adjudicated_projects: number;
+    difference: number;
+    explanation: string;
+    limitation: string;
   };
   public_showcase: {
-    sanitized_records: number;
-    featured_pages: number;
-    unique_sourced_projects_represented: number;
-    candidate_detail_pages: number;
-    aos_included_in_sanitized_records: boolean;
+    public_broad_run_records: number;
+    featured_analysis_pages: number;
+    total_detail_pages: number;
+    aos_included_in_public_records: boolean;
     source_label: string;
     derivation: {
       actionable_posts: number;
       excluded_unnamed_posts: number;
       named_posts: number;
       duplicate_project_posts_collapsed: number;
-      unique_public_records: number;
+      public_broad_run_records: number;
       formula: string;
     };
     exclusion_count: number;
@@ -258,7 +266,8 @@ export interface MetricsProvenance {
   };
   multi_query_posts: number;
   multi_query_note: string;
-  definitions: Record<string, string>;
+  funnel: { key: string; label: string; value: number }[];
+  funnel_note: string;
   policy: string[];
   provenance: Provenance;
 }

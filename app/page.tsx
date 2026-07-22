@@ -25,7 +25,7 @@ export default function HomePage() {
             <Link className="btn" href="/results">Explore the sourcing run</Link>
             <Link className="btn secondary" href="/methodology">Review methodology</Link>
             <Link className="btn secondary" href="/cost-controls">Review cost controls</Link>
-            <Link className="btn secondary" href="/results/aos-unicity-labs">View the AOS thesis</Link>
+            <Link className="btn secondary" href="/results/aos-unicity-labs">View the AOS investment case</Link>
           </div>
         </div>
       </section>

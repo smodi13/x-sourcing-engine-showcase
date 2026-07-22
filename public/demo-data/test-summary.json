@@ -47,11 +47,11 @@
   ],
   "original_engine_tests": 450,
   "provenance": {
-    "generated_at": "2026-07-22T17:05:52Z",
+    "generated_at": "2026-07-22T17:26:41Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "tests/ in the showcase repository",
     "transform_version": "1.0.0"
   },
-  "showcase_note": "The public showcase ships its own focused test suite of 85 tests. This count is reported separately from the original engine's 450 tests.",
-  "showcase_tests": 85
+  "showcase_note": "The public showcase ships its own focused test suite of 88 tests. This count is reported separately from the original engine's 450 tests.",
+  "showcase_tests": 88
 }

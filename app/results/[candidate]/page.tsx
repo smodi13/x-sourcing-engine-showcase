@@ -53,12 +53,17 @@ function FeaturedView({ c }: { c: FeaturedCandidate }) {
       <div className="stack">
         <Link href="/results" className="small">Back to results</Link>
         <div className="tags">
-          <Tag variant="accent">Featured</Tag>
+          <Tag variant="accent">Featured analysis</Tag>
           <Tag>{c.sector_bucket}</Tag>
           <Tag>{c.company_status}</Tag>
         </div>
         <h1>{c.name}</h1>
         <p className="lede">{c.summary}</p>
+        <p className="muted small">
+          This is a public featured investment-analysis page, sourced from the earlier pilot and
+          targeted-enrichment comparison. It is separate from the sanitized broad-run project records
+          on the results page. The complete investment memo remains private.
+        </p>
         <ReplayNotice />
       </div>
 
@@ -93,9 +98,10 @@ function FeaturedView({ c }: { c: FeaturedCandidate }) {
       </section>
 
       <section className="stack">
-        <h2>Investment thesis</h2>
-        <div className="error-box">
-          <strong>Placeholder.</strong> {c.thesis_note}
+        <h2>Investment case</h2>
+        <div className="callout">
+          <strong>Public featured analysis.</strong> The summary, public facts, evidence, and
+          diligence questions on this page are the public investment case. {c.thesis_note}
         </div>
       </section>
 

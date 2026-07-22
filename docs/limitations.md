@@ -19,8 +19,10 @@ What the engine can and cannot prove.
 
 - 1,279 means returned Post resources, not unique Posts.
 - 1,166 means net-new Posts after deduplication.
-- 851 Level A Posts is a Post count, not 851 companies.
-- 153 consolidated companies or projects is not 153 incorporated startups.
+- 851 means Posts with external product-artifact links, a Post count and not a
+  company count. It is broader than the 737 strict verified Level A Posts.
+- 159 means engine-consolidated actionable projects; 153 means projects after
+  final analyst adjudication, and neither is a count of incorporated startups.
 - 14 enriched profiles is not 14 funded companies.
 
 ## Version-two improvements

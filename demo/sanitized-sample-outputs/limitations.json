@@ -12,7 +12,7 @@
     "The engine did not search the entire startup market."
   ],
   "provenance": {
-    "generated_at": "2026-07-22T17:05:52Z",
+    "generated_at": "2026-07-22T17:26:41Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "README.md, platform_risk.py, analysis notes",
     "transform_version": "1.0.0"

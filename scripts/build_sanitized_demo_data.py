@@ -67,9 +67,11 @@ CANONICAL = {
         "posts_matched_multiple_queries": 68,
         "unique_authors": 967,
         "direct_builder_claims": 190,
-        "level_a_artifact_posts": 851,
+        "artifact_bearing_posts": 851,
+        "strict_level_a_posts": 737,
         "actionable_posts": 187,
-        "consolidated_companies_or_projects": 153,
+        "engine_consolidated_projects": 159,
+        "analyst_adjudicated_projects": 153,
         "profiles_enriched": 14,
         "profiles_returned": 14,
         "passing_tests_original_engine": 450,
@@ -82,8 +84,9 @@ CANONICAL = {
 METRIC_NOTES = {
     "returned_post_resources": "Returned Post resources, not unique Posts.",
     "net_new_posts": "Net-new Posts after within-run and cross-run deduplication.",
-    "level_a_artifact_posts": "Final adjudicated count of Posts carrying an external product artifact (851). This is a Post count, not a company count. An intermediate processing stage recorded 737 Posts meeting the strict verifiable Level A bar. See the metrics reconciliation.",
-    "consolidated_companies_or_projects": "Final adjudicated count of consolidated companies or projects (153). Not a count of incorporated startups. An intermediate consolidation stage recorded 159. See the metrics reconciliation.",
+    "artifact_bearing_posts": "Posts with external product-artifact links (851). This is a Post count, not a company count, and is broader than the strict verified Level A standard. 737 Posts met the strict verified Level A standard. See the metrics reconciliation.",
+    "strict_level_a_posts": "Posts that met the strict verified Level A standard with has_level_a true (737). A stricter subset of the 851 Posts with external product-artifact links.",
+    "analyst_adjudicated_projects": "Projects after final analyst adjudication (153). Not a count of incorporated startups. The deterministic pipeline produced 159 engine-consolidated actionable projects before adjudication. See the metrics reconciliation.",
     "profiles_enriched": "Shortlisted profiles enriched. Not a count of funded companies.",
     "estimated_activity_usd": "Estimated API activity. Not reconciled against the external Developer Console.",
 }
@@ -207,9 +210,10 @@ def build_run_summary(out_dir: Path):
             {"key": "net_new_posts", "label": "Net-new Posts", "value": 1166, "note": METRIC_NOTES["net_new_posts"]},
             {"key": "unique_authors", "label": "Unique authors", "value": 967, "note": "Distinct post authors across the broad run."},
             {"key": "direct_builder_claims", "label": "Direct-builder claims", "value": 190, "note": "Posts attributed to the actual builder, not commentary or third-party reporting."},
-            {"key": "level_a_artifact_posts", "label": "Level A artifact Posts", "value": 851, "note": "Final adjudicated Posts carrying an external product artifact. A Post count, not a company count. Intermediate stage recorded 737 strictly verifiable."},
+            {"key": "artifact_bearing_posts", "label": "Posts with product-artifact links", "value": 851, "note": "Posts carrying at least one external product-artifact link. A Post count, not a company count. This is broader than the strict verified Level A standard."},
+            {"key": "strict_level_a_posts", "label": "Strict verified Level A Posts", "value": 737, "note": "Posts that met the strict verified Level A standard (has_level_a true). A subset of the 851 Posts with product-artifact links."},
             {"key": "actionable_posts", "label": "Actionable Posts", "value": 187, "note": "Posts passing attribution and artifact checks."},
-            {"key": "consolidated_companies_or_projects", "label": "Consolidated companies or projects", "value": 153, "note": "Final adjudicated consolidated companies or projects, not incorporated startups. Intermediate stage recorded 159."},
+            {"key": "analyst_adjudicated_projects", "label": "Projects after analyst adjudication", "value": 153, "note": "Projects after final analyst adjudication, not incorporated startups. The deterministic pipeline produced 159 engine-consolidated actionable projects before adjudication."},
             {"key": "profiles_enriched", "label": "Enriched profiles", "value": 14, "note": METRIC_NOTES["profiles_enriched"]},
             {"key": "estimated_activity_usd", "label": "Estimated activity (USD)", "value": "7.720", "note": METRIC_NOTES["estimated_activity_usd"]},
             {"key": "estimated_remaining_usd", "label": "Estimated remaining (USD)", "value": "17.280", "note": "Unused portion of the USD 25.000 estimated allowance."},
@@ -536,8 +540,8 @@ def build_test_summary(out_dir: Path):
     # not copied from the original engine. See tests/ in this repository.
     payload = {
         "original_engine_tests": 450,
-        "showcase_tests": 85,
-        "showcase_note": "The public showcase ships its own focused test suite of 85 tests. This count is reported separately from the original engine's 450 tests.",
+        "showcase_tests": 88,
+        "showcase_note": "The public showcase ships its own focused test suite of 88 tests. This count is reported separately from the original engine's 450 tests.",
         "categories": [
             {"category": "evidence_classification", "description": "Evidence level and attribution mapping."},
             {"category": "builder_attribution", "description": "Direct-builder versus third-party detection."},
@@ -601,77 +605,92 @@ def build_metrics_provenance(out_dir: Path, src: Path):
     dup_collapsed = len(named) - unique_public
     aos_in_public = any(("aos" in s or "unicity" in s) for s in slugs)
 
+    total_pages = unique_public + 1
     payload = {
-        "canonical": {
-            "level_a_posts": 851,
-            "consolidated_projects": 153,
-            "actionable_posts": 187,
+        "counts": {
             "net_new_posts": 1166,
-            "source_label": "Final adjudicated metrics from the completed investment package summary.",
-            "stage": "final_adjudicated",
-            "definition": (
-                "851 counts broad-run Posts that carry at least one external product artifact link. "
-                "153 counts the final adjudicated consolidated companies or projects."
+            "artifact_bearing_posts": 851,
+            "strict_level_a_posts": 737,
+            "direct_builder_claims": 190,
+            "actionable_posts": 187,
+            "engine_consolidated_projects": 159,
+            "analyst_adjudicated_projects": 153,
+            "public_broad_run_records": unique_public,
+            "featured_analysis_pages": 1,
+            "total_detail_pages": total_pages,
+        },
+        "count_definitions": {
+            "net_new_posts": {"value": 1166, "stage": "deduplicated", "definition": "Unique Posts after within-run and cross-run deduplication.", "source_label": "Broad-run deduplication output."},
+            "artifact_bearing_posts": {"value": 851, "stage": "artifact_resolution", "definition": "Posts with at least one resolved external product-artifact link. Broader than the strict verified Level A standard.", "source_label": "Artifact evidence audit (Posts with one or more resolved external artifacts)."},
+            "strict_level_a_posts": {"value": 737, "stage": "artifact_resolution", "definition": "Posts that met the strict verified Level A standard with has_level_a true. A subset of the 851 artifact-bearing Posts.", "source_label": "Artifact evidence audit and global metrics (has_level_a true)."},
+            "direct_builder_claims": {"value": 190, "stage": "attribution", "definition": "Posts attributed to the actual builder rather than commentary or third-party reporting.", "source_label": "Attribution output."},
+            "actionable_posts": {"value": 187, "stage": "actionable", "definition": "Posts passing attribution and artifact checks.", "source_label": "Actionable candidates output."},
+            "engine_consolidated_projects": {"value": 159, "stage": "engine_consolidation", "definition": "Actionable projects produced by the deterministic engine consolidation (124 keep_verified plus 35 keep_for_enrichment).", "source_label": "Consolidated-company output and processing summary."},
+            "analyst_adjudicated_projects": {"value": 153, "stage": "analyst_adjudication", "definition": "Projects remaining after final analyst adjudication of the engine-consolidated set.", "source_label": "Completed investment package summary."},
+            "public_broad_run_records": {"value": unique_public, "stage": "public_sanitization", "definition": "Sanitized broad-run project records shown in the public results table.", "source_label": "Public sanitization of the actionable Posts."},
+            "featured_analysis_pages": {"value": 1, "stage": "public_sanitization", "definition": "The separate featured AOS investment-analysis page, sourced from the earlier pilot and targeted-enrichment comparison.", "source_label": "Pilot and targeted-enrichment comparison."},
+            "total_detail_pages": {"value": total_pages, "stage": "public_sanitization", "definition": f"{unique_public} sanitized broad-run project records plus 1 featured AOS analysis page. These are detail pages, not {total_pages} equivalent candidates.", "source_label": "Generated candidate routes."},
+        },
+        "artifact_vs_level_a": {
+            "artifact_bearing_posts": 851,
+            "strict_level_a_posts": 737,
+            "difference": 851 - 737,
+            "explanation": (
+                "851 Posts contain at least one resolved external product-artifact link. 737 of those met "
+                "the strict verified Level A standard (has_level_a true). The 114 difference is "
+                "artifact-bearing Posts that did not meet the strict verified standard. 851 is not Level A; "
+                "it is the broader artifact-bearing measure. Neither is an error."
             ),
         },
-        "intermediate": {
-            "level_a_posts": 737,
-            "consolidated_projects": 159,
-            "source_label": "Intermediate processing-stage outputs (global metrics and consolidated-company audit).",
-            "stage": "intermediate_processing",
-            "definition": (
-                "737 counts broad-run Posts whose external artifact met the strict verifiable Level A "
-                "bar after link resolution. 159 counts the actionable consolidated projects at the "
-                "engine's intermediate consolidation stage (124 keep_verified plus 35 keep_for_enrichment)."
+        "engine_vs_analyst_projects": {
+            "engine_consolidated_projects": 159,
+            "analyst_adjudicated_projects": 153,
+            "difference": 159 - 153,
+            "explanation": (
+                "The deterministic engine consolidation produced 159 actionable projects. 153 projects "
+                "remained after final analyst adjudication that merged near-duplicate projects and "
+                "reclassified a small number of borderline non-company projects."
             ),
-            "level_a_difference": 851 - 737,
-            "level_a_difference_explanation": (
-                "The 114 difference is Posts that carry an external artifact link but whose artifact did "
-                "not meet the strict verifiable Level A bar at the intermediate stage. 851 is the broader "
-                "artifact-bearing Post count, 737 is the strict verifiable subset. Neither is an error; "
-                "they measure different bars at different stages."
-            ),
-            "consolidated_difference": 159 - 153,
-            "consolidated_difference_explanation": (
-                "The engine's intermediate stage records 159 actionable consolidated projects. The final "
-                "package reports 153 after a final manual adjudication that merged near-duplicate projects "
-                "and reclassified a small number of borderline non-company projects. The 6-project "
-                "reduction is a final-adjudication step and is not itemized as a separate saved engine "
-                "audit file, so the six records are not enumerated here to avoid guessing."
+            "limitation": (
+                "The final six-project reduction was preserved as an aggregate in the investment package, "
+                "but the individual merge and reclassification decisions were not retained in a "
+                "record-level audit file. The six records are not enumerated, and the absence of the "
+                "itemized delta is a records-retention gap, not an error in the counts."
             ),
         },
         "public_showcase": {
-            "sanitized_records": unique_public,
-            "featured_pages": 1,
-            "unique_sourced_projects_represented": unique_public,
-            "candidate_detail_pages": unique_public + 1,
-            "aos_included_in_sanitized_records": aos_in_public,
+            "public_broad_run_records": unique_public,
+            "featured_analysis_pages": 1,
+            "total_detail_pages": total_pages,
+            "aos_included_in_public_records": aos_in_public,
             "source_label": "Sanitized public subset derived from the 187 broad-run actionable Posts.",
             "derivation": {
                 "actionable_posts": total_actionable,
                 "excluded_unnamed_posts": unnamed,
                 "named_posts": len(named),
                 "duplicate_project_posts_collapsed": dup_collapsed,
-                "unique_public_records": unique_public,
-                "formula": f"{total_actionable} actionable Posts - {unnamed} without a project name - {dup_collapsed} same-project duplicates = {unique_public} unique public records",
+                "public_broad_run_records": unique_public,
+                "formula": f"{total_actionable} actionable Posts - {unnamed} records without an engine-normalized project name - {dup_collapsed} same-project duplicate Posts = {unique_public} sanitized broad-run project records",
             },
             "exclusion_count": unnamed + dup_collapsed,
             "exclusion_reasons": [
                 {"reason": "no_normalized_project_name", "count": unnamed,
-                 "detail": "Actionable Posts with no engine-normalized project name cannot be shown as a meaningful, safe public project row."},
+                 "detail": "Actionable Post records with no engine-normalized project name cannot be shown as a meaningful, safe public project row."},
                 {"reason": "same_project_duplicate_post", "count": dup_collapsed,
                  "detail": "Multiple actionable Posts describing the same project are collapsed to one public record by normalized-name slug."},
             ],
             "consolidation_key_note": (
-                "The public subset consolidates the 187 actionable Posts by normalized project-name slug. "
-                "This is a simpler key than the engine's final adjudicated consolidation (repo, domain, or "
-                "project plus author), so 122 is not a strict subtraction from 153."
+                "The public table is generated from the 187 actionable Post records, not by subtraction "
+                "from the 153 analyst-adjudicated project set. It consolidates by normalized project-name "
+                "slug, a simpler key than the engine consolidation, so the public count is not a direct "
+                "subset of 153."
             ),
             "aos_note": (
-                "AOS / Unicity Labs is not among the 122 broad-run records. It was surfaced by the same "
-                "engine in the earlier pilot and targeted-enrichment comparison, and is presented "
-                "separately as the featured investment-thesis page. Total candidate detail pages: "
-                f"{unique_public} broad-run records plus 1 featured page equals {unique_public + 1}."
+                "AOS / Unicity Labs is a separate featured investment-analysis page sourced from the "
+                "earlier pilot and targeted-enrichment comparison. It is not included in the "
+                f"{unique_public} broad-run public project records. Detail pages total {total_pages}: "
+                f"{unique_public} sanitized broad-run project records and one featured AOS analysis page. "
+                "These are detail pages, not equivalent candidates."
             ),
         },
         "multi_query_posts": 68,
@@ -681,18 +700,29 @@ def build_metrics_provenance(out_dir: Path, src: Path):
             "matched more than one query family. Query-level sums are never presented as deduplicated "
             "global totals."
         ),
-        "definitions": {
-            "post_resource": "A returned Post resource from recent search. 1,279 returned resources, not unique Posts.",
-            "net_new_post": "A unique Post remaining after within-run and cross-run deduplication (1,166).",
-            "artifact_post": "A Post carrying at least one external product artifact link (851).",
-            "verifiable_level_a_post": "A Post whose artifact met the strict verifiable Level A bar (737).",
-            "actionable_post": "A Post passing attribution and artifact checks (187).",
-            "consolidated_project": "A consolidated company or project, not an incorporated startup (153 final, 159 intermediate).",
-        },
+        "funnel": [
+            {"key": "net_new_posts", "label": "Net-new Posts", "value": 1166},
+            {"key": "artifact_bearing_posts", "label": "Posts with external product-artifact links", "value": 851},
+            {"key": "strict_level_a_posts", "label": "Strict verified Level A Posts", "value": 737},
+            {"key": "direct_builder_claims", "label": "Direct-builder claims", "value": 190},
+            {"key": "actionable_posts", "label": "Actionable Posts", "value": 187},
+            {"key": "engine_consolidated_projects", "label": "Engine-consolidated actionable projects", "value": 159},
+            {"key": "analyst_adjudicated_projects", "label": "Projects after final analyst adjudication", "value": 153},
+            {"key": "public_broad_run_records", "label": "Sanitized broad-run project records displayed publicly", "value": unique_public},
+            {"key": "featured_analysis_pages", "label": "Separate featured AOS investment-analysis page", "value": 1},
+        ],
+        "funnel_note": (
+            "These are stage counts, not strictly nested subsets. 737 is a subset of 851. 187 actionable "
+            "Posts consolidate to 159 engine projects, then 153 after analyst adjudication. The public "
+            "122 records are re-derived from the 187 actionable Posts by a simpler consolidation, so they "
+            "are not a direct subtraction from 153. The featured AOS page is from a separate earlier run."
+        ),
         "policy": [
-            "The public summary uses the final adjudicated metrics: 851 Level A artifact Posts and 153 consolidated companies or projects.",
-            "Intermediate artifacts (737 and 159) are earlier pipeline stages and are shown here for provenance, not as errors.",
-            "The 1,279 figure is returned Post resources, not a unique-Post count. The 851 figure is a Post count, not a company count. The 153 figure is consolidated projects, not incorporated startups. No specific count of unique engine-sourced companies is claimed beyond the verified public records.",
+            "851 is Posts with external product-artifact links, never labeled strict Level A.",
+            "737 is the strict verified Level A Post count.",
+            "159 is engine-consolidated actionable projects; 153 is projects after final analyst adjudication.",
+            "122 is sanitized broad-run project records; 123 is detail pages, not equivalent candidates.",
+            "The 1,279 figure is returned Post resources, not a unique-Post count. No count of incorporated startups or of unique engine-sourced companies is claimed.",
         ],
         "provenance": provenance("global_metrics.json, artifact_evidence_audit.json, consolidated_companies.json, processing_summary.json, actionable_candidates.json"),
     }

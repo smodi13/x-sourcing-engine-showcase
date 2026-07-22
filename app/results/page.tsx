@@ -27,42 +27,63 @@ export default function ResultsPage() {
         <div className="eyebrow">Results</div>
         <h1>The consolidated sourcing run</h1>
         <p className="lede">
-          The results interface displays {ps.sanitized_records} sanitized project records from the
-          completed run. This is a sanitized public subset, not the complete private diligence
-          dataset. Raw Post text and personal identity fields are intentionally excluded, and each
-          row links to the original public X Post.
+          The results interface displays {ps.public_broad_run_records} sanitized broad-run project
+          records from the completed run. This is a sanitized public subset, not the complete private
+          diligence dataset. Raw Post text and personal identity fields are intentionally excluded,
+          and each row links to the original public X Post.
         </p>
         <ReplayNotice />
       </div>
 
       <div className="grid cols-4">
-        <MetricCard value={file.count} label="Sanitized project records" note="Unique named projects derived from the 187 actionable Posts." />
+        <MetricCard value={file.count} label="Sanitized broad-run project records" note="Public records derived from the 187 actionable Posts." />
         <MetricCard value={187} label="Actionable Posts" note="Posts passing attribution and artifact checks across the run." />
         <MetricCard value={keepVerified} label="Keep verified" note="Direct builder with a verified Level A artifact." />
         <MetricCard value={forEnrichment} label="Keep for enrichment" note="Shortlisted for selective profile enrichment." />
       </div>
 
       <div className="callout">
-        <strong>Featured investment-thesis page:</strong>{" "}
-        <Link href="/results/aos-unicity-labs">AOS / Unicity Labs</Link>. AOS is not among the{" "}
-        {ps.sanitized_records} broad-run records above. It was surfaced by the same engine in the
-        earlier pilot and comparison, and is presented separately as the featured thesis, advanced by
-        human judgment for focused diligence rather than by an automated score.
+        <strong>Featured AOS investment-analysis page:</strong>{" "}
+        <Link href="/results/aos-unicity-labs">AOS / Unicity Labs</Link>. AOS / Unicity Labs is a
+        separate featured investment-analysis page sourced from the earlier pilot and
+        targeted-enrichment comparison. It is not included in the {ps.public_broad_run_records}{" "}
+        broad-run public project records above.
       </div>
 
       <ResultsTable candidates={file.candidates} />
 
       <section className="stack">
-        <h2>Metric provenance and public exclusions</h2>
+        <h2>Metric provenance and the public funnel</h2>
         <p className="muted small">
-          The final summary uses the adjudicated metrics from the completed sourcing run:{" "}
-          {prov.canonical.level_a_posts} Level A artifact Posts and {prov.canonical.consolidated_projects}{" "}
-          consolidated companies or projects. Earlier pipeline artifacts contain different counts
-          ({prov.intermediate.level_a_posts} and {prov.intermediate.consolidated_projects}) because they
-          represent intermediate processing stages before final reclassification and consolidation.
+          851 Posts contained at least one resolved external product-artifact link.{" "}
+          {prov.artifact_vs_level_a.strict_level_a_posts} Posts met the strict verified Level A
+          standard. The deterministic pipeline produced{" "}
+          {prov.engine_vs_analyst_projects.engine_consolidated_projects} engine-consolidated
+          actionable projects, and {prov.engine_vs_analyst_projects.analyst_adjudicated_projects}{" "}
+          projects remained after final analyst adjudication. These are stage counts, not strictly
+          nested subsets.
         </p>
+        <div className="table-wrap">
+          <table>
+            <thead><tr><th>Funnel stage</th><th>Count</th></tr></thead>
+            <tbody>
+              {prov.funnel.map((f) => (
+                <tr key={f.key}>
+                  <td>{f.label}</td>
+                  <td className="mono">{f.value.toLocaleString("en-US")}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="faint small">{prov.funnel_note}</p>
+
+        <h3 style={{ marginTop: "0.5rem" }}>Public exclusions</h3>
         <div className="callout small">
-          <strong>How this table of {ps.sanitized_records} records is derived:</strong> {ps.derivation.formula}.
+          <strong>How this table of {ps.public_broad_run_records} records is derived:</strong>{" "}
+          {ps.derivation.formula}. This starts from the 187 actionable Posts and is not a direct
+          subtraction from the {prov.engine_vs_analyst_projects.analyst_adjudicated_projects}{" "}
+          analyst-adjudicated project set.
         </div>
         <div className="table-wrap">
           <table>
@@ -83,8 +104,9 @@ export default function ResultsPage() {
             </tbody>
           </table>
         </div>
+        <div className="callout small">{prov.engine_vs_analyst_projects.limitation}</div>
         <p className="faint small">
-          {prov.multi_query_note} {ps.consolidation_key_note}{" "}
+          {prov.multi_query_note} {ps.aos_note}{" "}
           <a href={`${GITHUB_URL}/blob/main/docs/metrics-reconciliation.md`} target="_blank" rel="noopener noreferrer">
             Full metrics reconciliation
           </a>.

@@ -67,9 +67,12 @@ def test_run_summary_canonical_metrics():
     broad = run["broad"]
     assert broad["net_new_posts"] == 1166
     assert broad["unique_authors"] == 967
-    assert broad["level_a_artifact_posts"] == 851
+    assert broad["artifact_bearing_posts"] == 851
+    assert broad["strict_level_a_posts"] == 737
+    assert "level_a_artifact_posts" not in broad  # 851 is never labeled Level A
     assert broad["actionable_posts"] == 187
-    assert broad["consolidated_companies_or_projects"] == 153
+    assert broad["engine_consolidated_projects"] == 159
+    assert broad["analyst_adjudicated_projects"] == 153
     assert broad["estimated_activity_usd"] == "7.720"
     assert broad["estimated_unused_allowance_usd"] == "17.280"
     assert run["searched_entire_market"] is False

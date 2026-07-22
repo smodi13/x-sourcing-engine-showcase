@@ -3,13 +3,14 @@
   "broad": {
     "actionable_posts": 187,
     "aggregate_seven_day_count": 1486,
-    "consolidated_companies_or_projects": 153,
+    "analyst_adjudicated_projects": 153,
+    "artifact_bearing_posts": 851,
     "count_preflight_requests": 20,
     "cross_run_duplicates_removed": 26,
     "direct_builder_claims": 190,
+    "engine_consolidated_projects": 159,
     "estimated_activity_usd": "7.720",
     "estimated_unused_allowance_usd": "17.280",
-    "level_a_artifact_posts": 851,
     "net_new_posts": 1166,
     "passing_tests_original_engine": 450,
     "posts_matched_multiple_queries": 68,
@@ -18,6 +19,7 @@
     "query_families": 20,
     "retrieval_http_requests": 25,
     "returned_post_resources": 1279,
+    "strict_level_a_posts": 737,
     "total_allowance_usd": "25.000",
     "unique_authors": 967,
     "within_run_duplicates_removed": 70
@@ -43,10 +45,16 @@
       "value": 190
     },
     {
-      "key": "level_a_artifact_posts",
-      "label": "Level A artifact Posts",
-      "note": "Final adjudicated Posts carrying an external product artifact. A Post count, not a company count. Intermediate stage recorded 737 strictly verifiable.",
+      "key": "artifact_bearing_posts",
+      "label": "Posts with product-artifact links",
+      "note": "Posts carrying at least one external product-artifact link. A Post count, not a company count. This is broader than the strict verified Level A standard.",
       "value": 851
+    },
+    {
+      "key": "strict_level_a_posts",
+      "label": "Strict verified Level A Posts",
+      "note": "Posts that met the strict verified Level A standard (has_level_a true). A subset of the 851 Posts with product-artifact links.",
+      "value": 737
     },
     {
       "key": "actionable_posts",
@@ -55,9 +63,9 @@
       "value": 187
     },
     {
-      "key": "consolidated_companies_or_projects",
-      "label": "Consolidated companies or projects",
-      "note": "Final adjudicated consolidated companies or projects, not incorporated startups. Intermediate stage recorded 159.",
+      "key": "analyst_adjudicated_projects",
+      "label": "Projects after analyst adjudication",
+      "note": "Projects after final analyst adjudication, not incorporated startups. The deterministic pipeline produced 159 engine-consolidated actionable projects before adjudication.",
       "value": 153
     },
     {
@@ -87,12 +95,13 @@
   ],
   "llm_in_classification_or_disposition": false,
   "metric_notes": {
-    "consolidated_companies_or_projects": "Final adjudicated count of consolidated companies or projects (153). Not a count of incorporated startups. An intermediate consolidation stage recorded 159. See the metrics reconciliation.",
+    "analyst_adjudicated_projects": "Projects after final analyst adjudication (153). Not a count of incorporated startups. The deterministic pipeline produced 159 engine-consolidated actionable projects before adjudication. See the metrics reconciliation.",
+    "artifact_bearing_posts": "Posts with external product-artifact links (851). This is a Post count, not a company count, and is broader than the strict verified Level A standard. 737 Posts met the strict verified Level A standard. See the metrics reconciliation.",
     "estimated_activity_usd": "Estimated API activity. Not reconciled against the external Developer Console.",
-    "level_a_artifact_posts": "Final adjudicated count of Posts carrying an external product artifact (851). This is a Post count, not a company count. An intermediate processing stage recorded 737 Posts meeting the strict verifiable Level A bar. See the metrics reconciliation.",
     "net_new_posts": "Net-new Posts after within-run and cross-run deduplication.",
     "profiles_enriched": "Shortlisted profiles enriched. Not a count of funded companies.",
-    "returned_post_resources": "Returned Post resources, not unique Posts."
+    "returned_post_resources": "Returned Post resources, not unique Posts.",
+    "strict_level_a_posts": "Posts that met the strict verified Level A standard with has_level_a true (737). A stricter subset of the 851 Posts with external product-artifact links."
   },
   "official_api_used": true,
   "official_endpoints": [
@@ -127,7 +136,7 @@
     "unique_posts": 176
   },
   "provenance": {
-    "generated_at": "2026-07-22T17:05:52Z",
+    "generated_at": "2026-07-22T17:26:41Z",
     "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
     "source_file": "global_metrics.json, processing_summary.json, cost ledgers",
     "transform_version": "1.0.0"

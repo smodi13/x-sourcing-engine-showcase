@@ -5,87 +5,93 @@ public showcase. It is safe for public viewing and contains no private paths,
 credentials, or personal data. The machine-readable version is
 `public/demo-data/metrics-provenance.json`.
 
-## Metric layers
-
-There are three layers:
-
-1. Final adjudicated metrics, used in the completed investment package summary.
-2. Intermediate processing-stage metrics, recorded by the engine mid-pipeline.
-3. The sanitized public-display subset shown in this demo.
-
-The public summary uses the final adjudicated metrics. Intermediate artifacts are
-shown here for provenance. They are not errors. They measure different bars at
-different stages.
-
 ## Definitions
 
 - Post resource: a returned Post from recent search. The broad run returned
   1,279 Post resources. This is not a count of unique Posts.
 - Net-new Post: a unique Post after within-run and cross-run deduplication
   (1,166).
-- Artifact Post: a Post carrying at least one external product artifact link
-  (851).
-- Verifiable Level A Post: a Post whose artifact met the strict verifiable Level
-  A bar after link resolution (737).
+- Post with external product-artifact links: a Post carrying at least one
+  resolved external product-artifact link (851). This is broader than the strict
+  verified Level A standard and is never labeled Level A.
+- Strict verified Level A Post: a Post that met the strict verified Level A
+  standard with has_level_a true (737). A subset of the 851 artifact-bearing
+  Posts.
 - Actionable Post: a Post passing attribution and artifact checks (187).
-- Consolidated company or project: a consolidated project, not an incorporated
-  startup (153 final, 159 intermediate).
+- Engine-consolidated actionable project: a project produced by the
+  deterministic engine consolidation (159).
+- Analyst-adjudicated project: a project remaining after final analyst
+  adjudication of the engine-consolidated set (153).
+- Sanitized broad-run project record: a public record shown in the results table
+  (122).
 
-## Level A: 737 versus 851
+## Public funnel
 
-- 737 is the intermediate count of Posts whose external artifact met the strict
-  verifiable Level A bar. Source: the engine global metrics and the artifact
-  evidence audit, where 737 of 1,166 Posts have a verifiable Level A artifact.
-- 851 is the count of Posts that carry at least one external product artifact
-  link. Source: the same artifact evidence audit, counting Posts with one or
-  more resolved external artifacts.
-- The difference of 114 is Posts that carry an external artifact link but whose
-  artifact did not meet the strict verifiable Level A bar at the intermediate
-  stage. 851 is the broader artifact-bearing Post count. 737 is the strict
-  verifiable subset. The final package uses 851 as the headline artifact-Post
-  figure.
+1. 1,166 net-new Posts
+2. 851 Posts with external product-artifact links
+3. 737 strict verified Level A Posts
+4. 190 direct-builder claims
+5. 187 actionable Posts
+6. 159 engine-consolidated actionable projects
+7. 153 projects after final analyst adjudication
+8. 122 sanitized broad-run project records displayed publicly
+9. 1 separate featured AOS investment-analysis page
 
-## Consolidated projects: 159 versus 153
+These are stage counts, not strictly nested subsets.
 
-- 159 is the engine's intermediate count of actionable consolidated projects,
-  formed from 124 keep_verified plus 35 keep_for_enrichment in the consolidated
-  company output.
-- 153 is the final adjudicated count in the completed package, after a final
-  manual adjudication that merged near-duplicate projects and reclassified a
-  small number of borderline non-company projects.
-- The 6-project reduction is a final-adjudication step. It is not itemized as a
-  separate saved engine audit file, so the six records are not enumerated here.
-  We do not guess at a per-record breakdown that the saved outputs do not record.
+## Artifact-bearing Posts versus strict Level A: 851 and 737
+
+- 851 Posts contained at least one resolved external product-artifact link.
+  Source: the artifact evidence audit, counting Posts with one or more resolved
+  external artifacts.
+- 737 Posts met the strict verified Level A standard (has_level_a true). Source:
+  the artifact evidence audit and global metrics.
+- The difference of 114 is artifact-bearing Posts that did not meet the strict
+  verified Level A standard. 851 is the broader artifact-bearing measure and is
+  not Level A. 737 is the strict verified subset. Neither is an error.
+
+## Engine-consolidated versus analyst-adjudicated projects: 159 and 153
+
+- 159 is the count of actionable projects produced by the deterministic engine
+  consolidation, formed from 124 keep_verified plus 35 keep_for_enrichment.
+- 153 is the count remaining after final analyst adjudication that merged
+  near-duplicate projects and reclassified a small number of borderline
+  non-company projects.
+- The final six-project reduction was preserved as an aggregate in the
+  investment package, but the individual merge and reclassification decisions
+  were not retained in a record-level audit file. We do not enumerate the six
+  records, and the absence of the itemized delta is a records-retention gap, not
+  an error in the counts.
 
 ## Public subset: 122 records
 
-The results interface shows 122 sanitized project records. They are derived from
-the 187 broad-run actionable Posts:
+The results interface shows 122 sanitized broad-run project records. They are
+generated from the 187 actionable Post records:
 
 ```
 187 actionable Posts
- -  37 Posts with no engine-normalized project name (cannot be shown as a
+ -  37 records with no engine-normalized project name (cannot be shown as a
         meaningful, safe public project row)
  = 150 named Posts
  -  28 same-project duplicate Posts (collapsed to one record by normalized-name
         slug)
- = 122 unique public project records
+ = 122 sanitized broad-run project records
 ```
 
 Total excluded from public display: 65 (37 unnamed plus 28 duplicate collapses).
 
-The public subset consolidates by normalized project-name slug, which is a
-simpler key than the engine's final adjudicated consolidation (repo, domain, or
-project plus author). For that reason, 122 is not a strict subtraction from 153.
-The private engine outputs remain unchanged.
+This public transformation starts from the 187 actionable Posts and is not a
+direct subtraction from the 153 analyst-adjudicated project set. The public
+subset consolidates by normalized project-name slug, a simpler key than the
+engine consolidation. The private engine outputs remain unchanged.
 
 ## AOS / Unicity Labs
 
-AOS / Unicity Labs is not among the 122 broad-run records. It was surfaced by the
-same engine in the earlier pilot and targeted-enrichment comparison, and is
-presented separately as the featured investment-thesis page. Candidate detail
-pages total 122 broad-run records plus 1 featured page, which is 123 pages
-representing 122 unique broad-run sourced projects plus the featured thesis.
+AOS / Unicity Labs is a separate featured investment-analysis page sourced from
+the earlier pilot and targeted-enrichment comparison. It is not included in the
+122 broad-run project records. Candidate detail pages total 123: 122 sanitized
+broad-run project records and one featured AOS analysis page. These are detail
+pages, not 123 equivalent candidates.
 
 ## Multi-query Posts
 
@@ -97,7 +103,6 @@ never presented as deduplicated global totals.
 ## What the site does not claim
 
 - Not 1,279 unique Posts. 1,279 is returned Post resources.
-- Not 851 companies. 851 is a Post count.
-- Not 153 incorporated startups. 153 is consolidated companies or projects.
-- Not a specific count of unique engine-sourced companies beyond the verified
-  public records.
+- 851 is not a Level A count and is not a company count.
+- Not 153 incorporated startups. 153 is analyst-adjudicated projects.
+- Not 123 equivalent candidates. 123 is detail pages.
