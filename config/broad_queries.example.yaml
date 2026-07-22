@@ -1,0 +1,182 @@
+# Sanitized example: twenty-query broad-market configuration.
+# Copied verbatim from the completed-run broad config. Contains query strings,
+# sector and lane tags, and group settings only. No credentials, approval
+# identifiers, or private paths are present. The bearer token is never stored here.
+#
+# Broad-market 20-query configuration (SEPARATE from the original six-query
+# config in queries.yaml; that file and its config_version 1 are unchanged).
+#
+# Each query is tagged with sector_bucket, discovery_lane, and broad_group.
+# broad_group is used to enforce "at least one approved run query per group".
+config_version: 2
+
+broad_groups: [ai, non_ai_b2b, hardware_deeptech, physical_products, cross_sector]
+
+queries:
+  # ---------------- AI INFRASTRUCTURE AND SOFTWARE ----------------
+  - id: q01_ai_infra_artifact
+    sector_bucket: ai_infrastructure
+    discovery_lane: product_artifact
+    broad_group: ai
+    query: '(agent runtime OR "MCP server" OR orchestration OR "model serving" OR "inference server" OR "vector database" OR "data infrastructure") ("we launched" OR "I launched" OR "we built" OR "I built" OR "open sourced" OR "now live") has:links lang:en -is:retweet'
+    objective: "AI-infra primitives (runtimes, MCP, serving, vector/data infra) at a build/launch moment with a link."
+    expected_strong_signal: "First-person launch/OSS with a repo/docs/product link."
+    expected_false_positives: "Big-lab announcements, MCP tutorials, generic 'now live' marketing."
+  - id: q02_ai_devtools_artifact
+    sector_bucket: ai_application_software
+    discovery_lane: product_artifact
+    broad_group: ai
+    query: '("AI coding" OR "code review" OR "AI testing" OR evals OR observability OR devops OR "AI security") ("we launched" OR "I launched" OR "we built" OR "I built" OR "open sourced" OR "public beta") has:links lang:en -is:retweet'
+    objective: "AI-native dev/infra tools at launch/OSS with a link."
+    expected_strong_signal: "Founder shipping a tool with a repo/demo/docs."
+    expected_false_positives: "Listicles, incumbent feature launches."
+  - id: q03_ai_workflow_traction
+    sector_bucket: ai_application_software
+    discovery_lane: early_traction
+    broad_group: ai
+    query: '("AI agent" OR "vertical AI" OR "AI copilot" OR "workflow automation") ("first customer" OR "design partner" OR "paid pilot" OR "in production" OR "migrated from") lang:en -is:retweet'
+    objective: "AI-workflow/vertical products showing earliest customer pull."
+    expected_strong_signal: "First customer / paid pilot / production use."
+    expected_false_positives: "Aspirational 'looking for design partners', vendor case studies."
+  - id: q04_ai_founder_transition
+    sector_bucket: ai_infrastructure
+    discovery_lane: founder_transition
+    broad_group: ai
+    query: '(agent OR "AI infrastructure" OR "AI software" OR "developer tools") ("left my job" OR "starting a company" OR "building in stealth" OR "founding engineer" OR "looking for a cofounder") lang:en -is:retweet'
+    objective: "Credible founders transitioning into AI infra/software, incl. stealth."
+    expected_strong_signal: "Named ex-operator/eng starting a company or seeking a cofounder in-scope."
+    expected_false_positives: "Recruiters, job reposts, generic 'starting something new'."
+  - id: q05_ai_hardware
+    sector_bucket: hardware_deeptech
+    discovery_lane: product_artifact
+    broad_group: ai
+    query: '("AI chip" OR accelerator OR "inference hardware" OR "edge AI" OR robotics OR "data center cooling") ("we built" OR "we launched" OR prototype OR "first units" OR deployed OR pilot) has:links lang:en -is:retweet'
+    objective: "AI/compute hardware (chips, edge, robotics, DC cooling) with a prototype/launch link."
+    expected_strong_signal: "Team building silicon/edge/robotics with a demo or first units."
+    expected_false_positives: "Reseller/marketing posts, generic 'AI hardware' commentary."
+
+  # ---------------- NON-AI B2B SAAS AND SOFTWARE ----------------
+  - id: q06_b2b_saas_launch
+    sector_bucket: non_ai_b2b_saas
+    discovery_lane: product_artifact
+    broad_group: non_ai_b2b
+    query: '("B2B SaaS" OR "enterprise software" OR "workflow software") ("we launched" OR "I launched" OR "now live" OR "public beta" OR "we built") has:links lang:en -is:retweet -AI -LLM -agent -copilot'
+    objective: "Non-AI B2B/enterprise software at launch with a link."
+    expected_strong_signal: "Founder launching a B2B product with a site/docs."
+    expected_false_positives: "AI-wrapped tools (excluded), agencies, templates."
+  - id: q07_b2b_saas_traction
+    sector_bucket: non_ai_b2b_saas
+    discovery_lane: early_traction
+    broad_group: non_ai_b2b
+    query: '("B2B SaaS" OR "enterprise software" OR "workflow software") ("first customer" OR "design partner" OR "paid pilot" OR "in production" OR "migrated from") lang:en -is:retweet -AI -LLM -agent -copilot'
+    objective: "Non-AI B2B software with earliest customer pull."
+    expected_strong_signal: "First customer / paid pilot / production."
+    expected_false_positives: "Vendor marketing, AI tools (excluded)."
+  - id: q08_non_ai_devtools_data
+    sector_bucket: developer_infrastructure
+    discovery_lane: product_artifact
+    broad_group: non_ai_b2b
+    query: '("developer tool" OR API OR database OR observability OR devops OR testing OR "data engineering") ("we launched" OR "I launched" OR "open sourced" OR "now live" OR "first customer") has:links lang:en -is:retweet -AI -LLM -agent -copilot'
+    objective: "Non-AI developer/data infrastructure at launch/OSS/first customer."
+    expected_strong_signal: "Repo/docs/product for a dev-infra tool."
+    expected_false_positives: "AI tools (excluded), API tutorials."
+  - id: q09_non_ai_cybersecurity
+    sector_bucket: cybersecurity
+    discovery_lane: product_artifact
+    broad_group: non_ai_b2b
+    query: '(cybersecurity OR "identity security" OR "application security" OR "cloud security" OR compliance) ("we launched" OR "I launched" OR "first customer" OR "design partner" OR "in production") lang:en -is:retweet -AI -LLM -agent -copilot'
+    objective: "Non-AI cybersecurity/compliance products at launch/traction."
+    expected_strong_signal: "Founder launching a security product with early customers."
+    expected_false_positives: "Threat-news, AI-security (excluded), consultancies."
+  - id: q10_fintech_operations
+    sector_bucket: fintech_software
+    discovery_lane: early_traction
+    broad_group: non_ai_b2b
+    query: '("accounts payable" OR treasury OR payroll OR procurement OR "expense management" OR "financial operations") ("we launched" OR "first customer" OR "design partner" OR "paid pilot" OR "in production") lang:en -is:retweet -AI -LLM -agent -copilot'
+    objective: "Financial-operations software (AP, treasury, payroll, procurement) with launch/traction."
+    expected_strong_signal: "Founder shipping finops software with first customers."
+    expected_false_positives: "Personal-finance content, AI tools (excluded)."
+  - id: q11_vertical_saas
+    sector_bucket: vertical_saas
+    discovery_lane: early_traction
+    broad_group: non_ai_b2b
+    query: '("vertical SaaS" OR "practice management" OR "field service" OR "construction software" OR "healthcare software" OR "legal software") ("we launched" OR "first customer" OR "design partner" OR "paid pilot" OR "in production") lang:en -is:retweet -AI -LLM -agent -copilot'
+    objective: "Vertical SaaS (health/legal/construction/field-service) with launch/traction."
+    expected_strong_signal: "Founder with a vertical product and first customers."
+    expected_false_positives: "Agencies, incumbents, AI tools (excluded)."
+  - id: q12_sales_and_customer_ops
+    sector_bucket: non_ai_b2b_saas
+    discovery_lane: early_traction
+    broad_group: non_ai_b2b
+    query: '("sales software" OR CRM OR "customer support software" OR "customer success" OR "revenue operations") ("we launched" OR "first customer" OR "design partner" OR "in production" OR "migrated from") lang:en -is:retweet -AI -LLM -agent -copilot'
+    objective: "Sales/CS/RevOps software with launch/traction."
+    expected_strong_signal: "Founder launching a GTM tool with early customers."
+    expected_false_positives: "Sales influencers, AI tools (excluded)."
+  - id: q13_supply_chain_industrial_software
+    sector_bucket: industrial_manufacturing
+    discovery_lane: early_traction
+    broad_group: non_ai_b2b
+    query: '("supply chain software" OR logistics OR "manufacturing software" OR "warehouse software" OR "industrial software") ("we launched" OR "first customer" OR "design partner" OR "paid pilot" OR "in production") lang:en -is:retweet -AI -LLM -agent -copilot'
+    objective: "Supply-chain/manufacturing/logistics software with launch/traction."
+    expected_strong_signal: "Founder shipping industrial software with early customers."
+    expected_false_positives: "3PL marketing, AI tools (excluded)."
+
+  # ---------------- HARDWARE, DEEP TECH, PHYSICAL PRODUCTS ----------------
+  - id: q14_robotics_and_drones
+    sector_bucket: hardware_deeptech
+    discovery_lane: product_artifact
+    broad_group: hardware_deeptech
+    query: '(robot OR robotics OR drone OR autonomous) ("we built" OR "we launched" OR prototype OR "first units" OR deployed OR pilot) has:links lang:en -is:retweet -course -giveaway -discount'
+    objective: "Robotics/drones/autonomy teams with a prototype/deployment link."
+    expected_strong_signal: "Team with a working robot/drone and a demo or first units."
+    expected_false_positives: "Toy/DIY content, courses, giveaways."
+  - id: q15_semiconductors_photonics_sensors
+    sector_bucket: hardware_deeptech
+    discovery_lane: product_artifact
+    broad_group: hardware_deeptech
+    query: '(semiconductor OR chip OR photonics OR sensor OR accelerator OR "edge compute") ("we built" OR "we launched" OR prototype OR taped-out OR "first units" OR pilot) has:links lang:en -is:retweet'
+    objective: "Semiconductor/photonics/sensor teams with a tapeout/prototype/first-units link."
+    expected_strong_signal: "Team building silicon/photonics with tapeout or first units."
+    expected_false_positives: "Stock/market chatter, hobby electronics."
+  - id: q16_energy_and_climate_hardware
+    sector_bucket: climate_energy
+    discovery_lane: product_artifact
+    broad_group: hardware_deeptech
+    query: '(battery OR "energy storage" OR solar OR grid OR hydrogen OR geothermal OR "carbon removal") (prototype OR pilot OR "first installation" OR "purchase order" OR "we launched") has:links lang:en -is:retweet'
+    objective: "Energy/climate hardware with prototype/pilot/first-installation/PO evidence."
+    expected_strong_signal: "Team with a pilot install or purchase order."
+    expected_false_positives: "Climate commentary, ETF/stock chatter."
+  - id: q17_medical_devices
+    sector_bucket: medical_device
+    discovery_lane: product_artifact
+    broad_group: hardware_deeptech
+    query: '("medical device" OR diagnostics OR wearable OR surgical OR "health hardware") (prototype OR clinical OR pilot OR FDA OR "we launched" OR "first patient") has:links lang:en -is:retweet'
+    objective: "Medical-device/diagnostics teams with prototype/clinical/FDA/first-patient signal."
+    expected_strong_signal: "Team with a clinical pilot or regulatory milestone."
+    expected_false_positives: "Health influencers, supplement brands, consumer wearables marketing."
+  - id: q18_advanced_manufacturing_materials
+    sector_bucket: industrial_manufacturing
+    discovery_lane: product_artifact
+    broad_group: hardware_deeptech
+    query: '("advanced materials" OR manufacturing OR "additive manufacturing" OR "3D printing" OR factory OR industrial) (prototype OR "first customer" OR "purchase order" OR pilot OR "we launched") has:links lang:en -is:retweet'
+    objective: "Advanced-manufacturing/materials teams with prototype/PO/first-customer evidence."
+    expected_strong_signal: "Team with a manufacturing pilot or purchase order."
+    expected_false_positives: "3D-printing hobby content, contract-manufacturer marketing."
+
+  # ---------------- CONSUMER HARDWARE + CROSS-SECTOR ----------------
+  - id: q19_consumer_hardware
+    sector_bucket: consumer_hardware
+    discovery_lane: product_artifact
+    broad_group: physical_products
+    query: '("consumer hardware" OR wearable OR "smart home" OR camera OR "audio device" OR mobility) ("we launched" OR preorder OR "first units" OR shipping OR prototype) has:links lang:en -is:retweet -giveaway -discount -coupon -amazon -affiliate'
+    objective: "Proprietary consumer hardware with launch/preorder/first-units/shipping."
+    expected_strong_signal: "Team shipping their own device (not a reseller)."
+    expected_false_positives: "Dropshipping, Amazon resellers, coupons, affiliates."
+  - id: q20_cross_sector_founder_transition
+    sector_bucket: mixed
+    discovery_lane: founder_transition
+    broad_group: cross_sector
+    query: '("left my job" OR "starting a company" OR "building in stealth" OR "looking for a cofounder" OR "founding engineer") (SaaS OR software OR hardware OR robotics OR climate OR medical OR manufacturing) lang:en -is:retweet'
+    objective: "Cross-sector founder transitions across software/hardware/deep-tech."
+    expected_strong_signal: "Named founder starting a company in an in-scope sector."
+    expected_false_positives: "Recruiters, motivational content, job reposts."

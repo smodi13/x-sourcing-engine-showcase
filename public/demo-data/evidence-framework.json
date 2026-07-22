@@ -1,0 +1,105 @@
+{
+  "artifact_types": [
+    "github_repository",
+    "documentation",
+    "product_website",
+    "live_demo",
+    "api_endpoint",
+    "app_store_listing"
+  ],
+  "attribution_classes": [
+    "direct_builder_claim",
+    "third_party_announcement",
+    "commentary",
+    "unclear_attribution"
+  ],
+  "builder_relations": [
+    {
+      "definition": "The author is the builder or founder of the project.",
+      "key": "direct_builder"
+    },
+    {
+      "definition": "The author works at the company but is not attributed as the builder.",
+      "key": "employee"
+    },
+    {
+      "definition": "The author reports on someone else's launch.",
+      "key": "third_party_reporter"
+    },
+    {
+      "definition": "The author reviews or comments on the product.",
+      "key": "reviewer"
+    },
+    {
+      "definition": "The author is an investor promoting a portfolio company.",
+      "key": "investor"
+    },
+    {
+      "definition": "The author comments on the category, not a specific new company.",
+      "key": "industry_commentator"
+    },
+    {
+      "definition": "An announcement from an established company, out of scope for early discovery.",
+      "key": "established_company_announcement"
+    },
+    {
+      "definition": "The author is unrelated to any in-scope company.",
+      "key": "unrelated_author"
+    }
+  ],
+  "dispositions": [
+    {
+      "definition": "Direct builder with a verified Level A artifact.",
+      "key": "keep_verified"
+    },
+    {
+      "definition": "Promising lead that warrants selective profile enrichment.",
+      "key": "keep_for_enrichment"
+    },
+    {
+      "definition": "Ambiguous lead routed to a human for review.",
+      "key": "manual_review"
+    },
+    {
+      "definition": "Third-party announcement, archived.",
+      "key": "archive_third_party"
+    },
+    {
+      "definition": "Commentary, archived.",
+      "key": "archive_commentary"
+    },
+    {
+      "definition": "Out of mandate scope, archived.",
+      "key": "archive_out_of_scope"
+    }
+  ],
+  "levels": [
+    {
+      "definition": "A verifiable external artifact such as a GitHub repository, documentation, a product website, or a live demo.",
+      "label": "Direct external product artifact",
+      "level": "A"
+    },
+    {
+      "definition": "A founder or builder launch or shipping statement without a qualifying external artifact.",
+      "label": "Builder launch statement",
+      "level": "B"
+    },
+    {
+      "definition": "Indirect signals such as related links, mentions, or context that support but do not prove the claim.",
+      "label": "Indirect supporting evidence",
+      "level": "C"
+    },
+    {
+      "definition": "Weak, unresolved, or non-actionable evidence.",
+      "label": "Weak or unresolved evidence",
+      "level": "D"
+    }
+  ],
+  "ownership_note": "An artifact alone does not prove ownership. The engine checks the relationship between the author and the artifact organization before treating an artifact as the author's own.",
+  "provenance": {
+    "generated_at": "2026-07-22T16:31:39Z",
+    "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
+    "source_file": "evidence.py, classify.py, ownership.py",
+    "transform_version": "1.0.0"
+  }
+}

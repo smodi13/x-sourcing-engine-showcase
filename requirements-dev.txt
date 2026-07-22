@@ -1,0 +1,3 @@
+# Tooling for regenerating sanitized demo data and running the showcase tests.
+PyYAML>=6.0
+pytest>=8.0

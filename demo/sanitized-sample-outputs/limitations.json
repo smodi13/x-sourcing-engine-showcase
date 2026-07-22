@@ -1,0 +1,29 @@
+{
+  "limitations": [
+    "The recent-search window is seven days, so older signals are not captured.",
+    "Results carry platform and query bias toward people who post on X.",
+    "A public artifact does not guarantee a company was formed.",
+    "Public artifacts can be side projects rather than companies.",
+    "GitHub activity does not prove customer demand.",
+    "Profile self-description can be circular and is treated as a claim, not proof.",
+    "API activity is estimated rather than Developer Console reconciled.",
+    "No LLM performs classification or disposition.",
+    "Public evidence can become stale.",
+    "The engine did not search the entire startup market."
+  ],
+  "provenance": {
+    "generated_at": "2026-07-22T16:31:39Z",
+    "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
+    "source_file": "README.md, platform_risk.py, analysis notes",
+    "transform_version": "1.0.0"
+  },
+  "version_two": [
+    "Longer time horizon and historical-search support.",
+    "Stronger entity resolution and an organization and domain graph.",
+    "Improved product-formation detection and better handling of side projects.",
+    "Stronger company identity enrichment and source freshness tracking.",
+    "Configurable scoring and an analyst review workflow.",
+    "Additional social and public-data sources.",
+    "Deterministic replay testing and stronger public-display compliance."
+  ]
+}

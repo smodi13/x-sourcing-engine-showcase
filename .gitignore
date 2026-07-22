@@ -1,0 +1,49 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next / build
+.next/
+out/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# environment and secrets
+.env
+.env.*
+!.env.example
+.vercel
+credentials/
+secrets/
+*.pem
+*.key
+*.log
+
+# private engine data that must never be published
+data/raw/
+data/private/
+raw_api/
+raw-responses/
+approvals/
+locks/private/
+private/
+scratch/
+tmp/
+
+# private interview and handoff materials
+PUBLIC_SHOWCASE_HANDOFF.md
+AOS_Engine_Demo_Script.txt
+AOS_Engine_Local_Screen_Share_Guide.txt
+
+# python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+
+# os
+.DS_Store

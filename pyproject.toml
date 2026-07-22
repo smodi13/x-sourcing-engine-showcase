@@ -1,0 +1,14 @@
+[project]
+name = "x-sourcing-engine-showcase"
+version = "1.0.0"
+description = "Sanitized showcase excerpts and demo-data build for the deterministic X sourcing engine."
+requires-python = ">=3.11"
+dependencies = ["PyYAML>=6.0"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.setuptools]
+packages = []

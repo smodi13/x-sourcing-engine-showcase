@@ -1,0 +1,233 @@
+{
+  "columns": [
+    "id",
+    "sector_bucket",
+    "discovery_lane",
+    "broad_group",
+    "count_preflight_estimate",
+    "posts_processed",
+    "actionable_leads",
+    "recommendation"
+  ],
+  "count": 20,
+  "provenance": {
+    "generated_at": "2026-07-22T16:31:39Z",
+    "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
+    "source_file": "query_metrics.json, count_metrics.json",
+    "transform_version": "1.0.0"
+  },
+  "recommendation_legend": {
+    "disable": "Low yield, retire in version two.",
+    "expand": "Strong yield, widen coverage.",
+    "retain": "Useful yield, keep as is.",
+    "revise": "Mixed yield, refine operators."
+  },
+  "rows": [
+    {
+      "actionable_leads": 39,
+      "broad_group": "ai",
+      "count_preflight_estimate": 63,
+      "discovery_lane": "product_artifact",
+      "id": "q01_ai_infra_artifact",
+      "posts_processed": 58,
+      "recommendation": "expand",
+      "sector_bucket": "ai_infrastructure"
+    },
+    {
+      "actionable_leads": 71,
+      "broad_group": "ai",
+      "count_preflight_estimate": 101,
+      "discovery_lane": "product_artifact",
+      "id": "q02_ai_devtools_artifact",
+      "posts_processed": 89,
+      "recommendation": "expand",
+      "sector_bucket": "ai_application_software"
+    },
+    {
+      "actionable_leads": 4,
+      "broad_group": "ai",
+      "count_preflight_estimate": 151,
+      "discovery_lane": "early_traction",
+      "id": "q03_ai_workflow_traction",
+      "posts_processed": 131,
+      "recommendation": "retain",
+      "sector_bucket": "ai_application_software"
+    },
+    {
+      "actionable_leads": 0,
+      "broad_group": "ai",
+      "count_preflight_estimate": 17,
+      "discovery_lane": "founder_transition",
+      "id": "q04_ai_founder_transition",
+      "posts_processed": 2,
+      "recommendation": "disable",
+      "sector_bucket": "ai_infrastructure"
+    },
+    {
+      "actionable_leads": 10,
+      "broad_group": "ai",
+      "count_preflight_estimate": 61,
+      "discovery_lane": "product_artifact",
+      "id": "q05_ai_hardware",
+      "posts_processed": 49,
+      "recommendation": "expand",
+      "sector_bucket": "hardware_deeptech"
+    },
+    {
+      "actionable_leads": 2,
+      "broad_group": "non_ai_b2b",
+      "count_preflight_estimate": 2,
+      "discovery_lane": "product_artifact",
+      "id": "q06_b2b_saas_launch",
+      "posts_processed": 2,
+      "recommendation": "retain",
+      "sector_bucket": "non_ai_b2b_saas"
+    },
+    {
+      "actionable_leads": 0,
+      "broad_group": "non_ai_b2b",
+      "count_preflight_estimate": 3,
+      "discovery_lane": "early_traction",
+      "id": "q07_b2b_saas_traction",
+      "posts_processed": 2,
+      "recommendation": "disable",
+      "sector_bucket": "non_ai_b2b_saas"
+    },
+    {
+      "actionable_leads": 16,
+      "broad_group": "non_ai_b2b",
+      "count_preflight_estimate": 98,
+      "discovery_lane": "product_artifact",
+      "id": "q08_non_ai_devtools_data",
+      "posts_processed": 122,
+      "recommendation": "retain",
+      "sector_bucket": "developer_infrastructure"
+    },
+    {
+      "actionable_leads": 9,
+      "broad_group": "non_ai_b2b",
+      "count_preflight_estimate": 66,
+      "discovery_lane": "product_artifact",
+      "id": "q09_non_ai_cybersecurity",
+      "posts_processed": 64,
+      "recommendation": "retain",
+      "sector_bucket": "cybersecurity"
+    },
+    {
+      "actionable_leads": 4,
+      "broad_group": "non_ai_b2b",
+      "count_preflight_estimate": 72,
+      "discovery_lane": "early_traction",
+      "id": "q10_fintech_operations",
+      "posts_processed": 69,
+      "recommendation": "retain",
+      "sector_bucket": "fintech_software"
+    },
+    {
+      "actionable_leads": 1,
+      "broad_group": "non_ai_b2b",
+      "count_preflight_estimate": 2,
+      "discovery_lane": "early_traction",
+      "id": "q11_vertical_saas",
+      "posts_processed": 2,
+      "recommendation": "retain",
+      "sector_bucket": "vertical_saas"
+    },
+    {
+      "actionable_leads": 3,
+      "broad_group": "non_ai_b2b",
+      "count_preflight_estimate": 6,
+      "discovery_lane": "early_traction",
+      "id": "q12_sales_and_customer_ops",
+      "posts_processed": 6,
+      "recommendation": "retain",
+      "sector_bucket": "non_ai_b2b_saas"
+    },
+    {
+      "actionable_leads": 4,
+      "broad_group": "non_ai_b2b",
+      "count_preflight_estimate": 24,
+      "discovery_lane": "early_traction",
+      "id": "q13_supply_chain_industrial_software",
+      "posts_processed": 26,
+      "recommendation": "retain",
+      "sector_bucket": "industrial_manufacturing"
+    },
+    {
+      "actionable_leads": 15,
+      "broad_group": "hardware_deeptech",
+      "count_preflight_estimate": 305,
+      "discovery_lane": "product_artifact",
+      "id": "q14_robotics_and_drones",
+      "posts_processed": 196,
+      "recommendation": "retain",
+      "sector_bucket": "hardware_deeptech"
+    },
+    {
+      "actionable_leads": 9,
+      "broad_group": "hardware_deeptech",
+      "count_preflight_estimate": 45,
+      "discovery_lane": "product_artifact",
+      "id": "q15_semiconductors_photonics_sensors",
+      "posts_processed": 39,
+      "recommendation": "expand",
+      "sector_bucket": "hardware_deeptech"
+    },
+    {
+      "actionable_leads": 3,
+      "broad_group": "hardware_deeptech",
+      "count_preflight_estimate": 118,
+      "discovery_lane": "product_artifact",
+      "id": "q16_energy_and_climate_hardware",
+      "posts_processed": 100,
+      "recommendation": "retain",
+      "sector_bucket": "climate_energy"
+    },
+    {
+      "actionable_leads": 0,
+      "broad_group": "hardware_deeptech",
+      "count_preflight_estimate": 175,
+      "discovery_lane": "product_artifact",
+      "id": "q17_medical_devices",
+      "posts_processed": 142,
+      "recommendation": "revise",
+      "sector_bucket": "medical_device"
+    },
+    {
+      "actionable_leads": 1,
+      "broad_group": "hardware_deeptech",
+      "count_preflight_estimate": 84,
+      "discovery_lane": "product_artifact",
+      "id": "q18_advanced_manufacturing_materials",
+      "posts_processed": 74,
+      "recommendation": "revise",
+      "sector_bucket": "industrial_manufacturing"
+    },
+    {
+      "actionable_leads": 2,
+      "broad_group": "physical_products",
+      "count_preflight_estimate": 50,
+      "discovery_lane": "product_artifact",
+      "id": "q19_consumer_hardware",
+      "posts_processed": 36,
+      "recommendation": "retain",
+      "sector_bucket": "consumer_hardware"
+    },
+    {
+      "actionable_leads": 4,
+      "broad_group": "cross_sector",
+      "count_preflight_estimate": 43,
+      "discovery_lane": "founder_transition",
+      "id": "q20_cross_sector_founder_transition",
+      "posts_processed": 36,
+      "recommendation": "retain",
+      "sector_bucket": "mixed"
+    }
+  ],
+  "totals": {
+    "actionable_leads": 197,
+    "count_preflight_estimate": 1486,
+    "posts_processed": 1245
+  },
+  "totals_note": "Per-query posts and actionable counts are attributed to each query and sum higher than the deduplicated run totals of 1,166 net-new Posts and 187 actionable Posts, because 68 Posts matched more than one query and are counted under each."
+}

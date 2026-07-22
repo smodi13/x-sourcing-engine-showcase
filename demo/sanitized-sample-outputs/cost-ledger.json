@@ -1,0 +1,71 @@
+{
+  "allowance_usd": "25.000",
+  "billing_status": "estimated_only",
+  "currency": "USD",
+  "estimated_activity_usd": "7.720",
+  "estimated_remaining_usd": "17.280",
+  "governance": {
+    "approval_expiration_minutes": 15,
+    "approval_required": true,
+    "decimal_arithmetic": true,
+    "fail_closed": true,
+    "fingerprint_algorithm": "SHA-256 over the canonical request",
+    "raw_before_derived": true,
+    "run_locked": true
+  },
+  "lines": [
+    {
+      "detail": "Six-query pilot retrieval plus 11 pilot profile enrichments (cumulative).",
+      "estimated_usd": "1.085",
+      "phase": "Pilot phase",
+      "unit_price_usd": null,
+      "units": null
+    },
+    {
+      "detail": "20 count requests at USD 0.005 each.",
+      "estimated_usd": "0.100",
+      "phase": "Broad count preflight",
+      "unit_price_usd": "0.005",
+      "units": 20
+    },
+    {
+      "detail": "1,279 returned Post resources at USD 0.005 each.",
+      "estimated_usd": "6.395",
+      "phase": "Broad retrieval",
+      "unit_price_usd": "0.005",
+      "units": 1279
+    },
+    {
+      "detail": "14 profiles at USD 0.010 each.",
+      "estimated_usd": "0.140",
+      "phase": "Broad profile enrichment",
+      "unit_price_usd": "0.010",
+      "units": 14
+    }
+  ],
+  "official_endpoints": [
+    {
+      "method": "GET",
+      "purpose": "Recent search over the seven-day window.",
+      "url": "https://api.x.com/2/tweets/search/recent"
+    },
+    {
+      "method": "GET",
+      "purpose": "Count preflight to size volume before any retrieval.",
+      "url": "https://api.x.com/2/tweets/counts/recent"
+    },
+    {
+      "method": "GET",
+      "purpose": "Selective profile enrichment for shortlisted authors.",
+      "url": "https://api.x.com/2/users"
+    }
+  ],
+  "provenance": {
+    "generated_at": "2026-07-22T16:31:39Z",
+    "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
+    "source_file": "broad_run_cost_ledger.json, count_cost_ledger.json, enrichment_cost_ledger.json, pilot_cost_ledger.json",
+    "transform_version": "1.0.0"
+  },
+  "reconciliation_note": "API activity is estimated. The external Developer Console belonged to a separate project and was not accessible, so costs were not console reconciled.",
+  "reconciliation_status": "unavailable_external_project_access"
+}

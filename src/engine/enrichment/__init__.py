@@ -1,0 +1,1 @@
+"""Sanitized showcase excerpt package."""

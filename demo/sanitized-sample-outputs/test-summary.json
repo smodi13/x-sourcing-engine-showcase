@@ -1,0 +1,53 @@
+{
+  "categories": [
+    {
+      "category": "evidence_classification",
+      "description": "Evidence level and attribution mapping."
+    },
+    {
+      "category": "builder_attribution",
+      "description": "Direct-builder versus third-party detection."
+    },
+    {
+      "category": "url_exclusion",
+      "description": "X-domain exclusion and artifact URL handling."
+    },
+    {
+      "category": "deduplication",
+      "description": "Within-run and cross-run duplicate removal."
+    },
+    {
+      "category": "consolidation",
+      "description": "Project-name normalization and company consolidation."
+    },
+    {
+      "category": "cost_calculations",
+      "description": "Decimal cost math and budget checks."
+    },
+    {
+      "category": "fingerprint_determinism",
+      "description": "Stable SHA-256 request fingerprints."
+    },
+    {
+      "category": "approval_expiration",
+      "description": "Fifteen-minute approval expiry."
+    },
+    {
+      "category": "execution_lock",
+      "description": "Run lock prevents duplicate paid execution."
+    },
+    {
+      "category": "sanitized_json_validation",
+      "description": "Generated demo JSON has required fields and no secrets or em dashes."
+    }
+  ],
+  "original_engine_tests": 450,
+  "provenance": {
+    "generated_at": "2026-07-22T16:31:39Z",
+    "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
+    "source_file": "tests/ in the showcase repository",
+    "transform_version": "1.0.0"
+  },
+  "showcase_note": "The public showcase ships its own focused test suite of 76 tests. This count is reported separately from the original engine's 450 tests.",
+  "showcase_tests": 76
+}

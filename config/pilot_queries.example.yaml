@@ -1,0 +1,145 @@
+# Sanitized example: six-query pilot configuration.
+# Copied verbatim from the completed-run pilot config. Contains query strings
+# and deterministic settings only. No credentials, approval identifiers, or
+# private paths are present. The bearer token is never stored here.
+#
+# Query architecture: THREE role-topic groups x THREE discovery lanes.
+#
+# Every query combines ONE lane with ONE OR MORE topic groups. We ship a small
+# CURATED set (<= 6 queries) rather than auto-generating all 9 lane x topic
+# combinations. Add queries deliberately; do not expand to the full matrix.
+#
+# X API v2 recent-search constraints (enforced by sourcing.validator BEFORE any
+# API call):
+#   * Allowed operators only: from: to: url: lang: has:links has:images
+#     has:videos has:media is:retweet is:reply list: , exact phrases, Boolean OR,
+#     and exclusions with `-`.
+#   * min_faves: / min_replies: / min_retweets: are UNSUPPORTED and forbidden.
+#     Engagement is computed locally in Python from public_metrics after retrieval.
+#   * Conjunction-required operators (has:links, has:media, etc.) must be paired
+#     with a standalone search term, never used alone.
+#   * Self-serve recent-search query limit is 512 characters.
+
+# Query configuration version. BUMP THIS whenever query text, fields, or request
+# policy change in a way that should invalidate prior approvals. It is part of
+# the approved_request_fingerprint (see sourcing/approval.py).
+config_version: 1
+
+global_filters:
+  lang: "en"
+  exclude_retweets: true
+  exclude_replies: false
+
+# --- Role-topic groups (tags used across the engine as A / B / C) ------------
+topics:
+  A:
+    name: "AI infrastructure & agent systems"
+    terms:
+      - "agent runtime"
+      - "MCP server"
+      - "model context protocol"
+      - "orchestration"
+      - "model serving"
+      - "inference server"
+      - "agent memory"
+      - "sandbox"
+  B:
+    name: "AI-native developer & infrastructure tools"
+    terms:
+      - "AI coding"
+      - "code review"
+      - "AI testing"
+      - "devops"
+      - "observability"
+      - "incident response"
+      - "AI security"
+      - "data engineering"
+  C:
+    name: "AI-native enterprise workflows"
+    terms:
+      - "vertical AI"
+      - "workflow automation"
+      - "AI agent for"
+      - "AI copilot for"
+      - "systems of action"
+      - "back office"
+
+# --- Discovery lanes ----------------------------------------------------------
+lanes:
+  product_artifact:
+    description: "launch, beta, shipping, open-source, demo, docs, API, GitHub, benchmark, landing page"
+    terms:
+      - "just launched"
+      - "just shipped"
+      - "open sourced"
+      - "open-sourced"
+      - "now in beta"
+      - "now available"
+  founder_transition:
+    description: "left my job, building in stealth, starting something new, seeking cofounder, hiring founding engineer, design partners"
+    terms:
+      - "left my job"
+      - "building in stealth"
+      - "starting something new"
+      - "looking for a cofounder"
+      - "founding engineer"
+      - "design partner"
+  early_traction:
+    description: "design partners, first customer, users asked us, usage milestones, customer migration, community contribution"
+    terms:
+      - "design partners"
+      - "first customer"
+      - "in production"
+      - "migrated from"
+      - "users asked"
+      - "just crossed"
+
+# --- CURATED queries (<= 6). One lane AND one or more topic groups each. -------
+queries:
+  - id: q1_artifact_infra
+    lane: product_artifact
+    topics: [A]
+    query: '(agent runtime OR "MCP server" OR "model context protocol" OR orchestration OR "model serving" OR "inference server") ("just launched" OR "just shipped" OR "open sourced" OR "open-sourced" OR "now in beta" OR "now available")'
+    objective: "Find people shipping agent/AI-infrastructure primitives (runtimes, MCP servers, model serving) right now."
+    expected_strong_signals: "Launch/OSS posts linking a repo, docs, or live endpoint for an agent runtime or serving layer."
+    expected_false_positives: "Big-lab/product announcements, tutorials about MCP, and generic 'we now support X' marketing."
+
+  - id: q2_artifact_devtools
+    lane: product_artifact
+    topics: [B]
+    query: '("AI coding" OR "code review" OR "AI testing" OR devops OR observability OR "incident response" OR "AI security") ("just launched" OR "just shipped" OR "open sourced" OR "open-sourced" OR "now in beta")'
+    objective: "Find AI-native developer/infra tools (coding, testing, DevOps, observability, security) at launch/OSS moment."
+    expected_strong_signals: "A founder shipping a tool with a repo/demo/docs in an AI dev-tools category."
+    expected_false_positives: "Listicles, 'top 10 AI tools' threads, and incumbent feature launches."
+
+  - id: q3_founder_infra_devtools
+    lane: founder_transition
+    topics: [A, B]
+    query: '(agent OR "AI infrastructure" OR "developer tools" OR observability OR "AI security") ("building in stealth" OR "left my job" OR "starting something new" OR "looking for a cofounder" OR "founding engineer")'
+    objective: "Surface credible founders/builders transitioning into AI infra or dev tools, including stealth."
+    expected_strong_signals: "Named ex-operator/eng announcing a new company or seeking a cofounder/founding engineer in-scope."
+    expected_false_positives: "Job-board reposts, recruiters, and generic 'excited to start something new' with no domain fit."
+
+  - id: q4_traction_devtools
+    lane: early_traction
+    topics: [B]
+    query: '("AI coding" OR "code review" OR devops OR observability OR "AI security" OR "data engineering") ("design partners" OR "first customer" OR "in production" OR "migrated from" OR "users asked")'
+    objective: "Find AI dev/infra tools showing earliest adoption (design partners, first customers, production use)."
+    expected_strong_signals: "Founder describing a first customer / production deployment, or a user describing real usage."
+    expected_false_positives: "Aspirational 'looking for design partners' with no product, and vendor case-study marketing."
+
+  - id: q5_traction_workflows
+    lane: early_traction
+    topics: [C]
+    query: '("vertical AI" OR "workflow automation" OR "AI agent for" OR "AI copilot for" OR "back office") ("design partners" OR "first customer" OR "in production" OR "migrated from")'
+    objective: "Find AI-native enterprise-workflow / systems-of-action products with earliest customer pull."
+    expected_strong_signals: "Vertical-AI founder citing a first customer or production workflow replacing manual/service spend."
+    expected_false_positives: "Consulting/agency 'we automate your back office', and no-code influencer content."
+
+  - id: q6_founder_workflows
+    lane: founder_transition
+    topics: [C]
+    query: '("vertical AI" OR "workflow automation" OR "AI agent for" OR "systems of action" OR "back office") ("building in stealth" OR "founding engineer" OR "just launched" OR "design partner")'
+    objective: "Surface founders launching or building (incl. stealth) AI-native enterprise-workflow companies."
+    expected_strong_signals: "Founder announcing a vertical-AI company/launch or hiring a founding engineer for one."
+    expected_false_positives: "Automation-agency promos, generic 'future of work' commentary, and SI/consulting pitches."

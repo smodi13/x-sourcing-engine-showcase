@@ -1,0 +1,84 @@
+{
+  "architecture": "Three role-topic groups by three discovery lanes, six curated queries.",
+  "count": 6,
+  "lanes": [
+    "product_artifact",
+    "founder_transition",
+    "early_traction"
+  ],
+  "provenance": {
+    "generated_at": "2026-07-22T16:31:39Z",
+    "note": "Generated from saved completed-run outputs by build_sanitized_demo_data.py.",
+    "source_file": "config/queries.yaml",
+    "transform_version": "1.0.0"
+  },
+  "queries": [
+    {
+      "expected_false_positives": "Big-lab/product announcements, tutorials about MCP, and generic 'we now support X' marketing.",
+      "expected_strong_signals": "Launch/OSS posts linking a repo, docs, or live endpoint for an agent runtime or serving layer.",
+      "id": "q1_artifact_infra",
+      "lane": "product_artifact",
+      "objective": "Find people shipping agent/AI-infrastructure primitives (runtimes, MCP servers, model serving) right now.",
+      "query": "(agent runtime OR \"MCP server\" OR \"model context protocol\" OR orchestration OR \"model serving\" OR \"inference server\") (\"just launched\" OR \"just shipped\" OR \"open sourced\" OR \"open-sourced\" OR \"now in beta\" OR \"now available\")",
+      "topics": [
+        "A"
+      ]
+    },
+    {
+      "expected_false_positives": "Listicles, 'top 10 AI tools' threads, and incumbent feature launches.",
+      "expected_strong_signals": "A founder shipping a tool with a repo/demo/docs in an AI dev-tools category.",
+      "id": "q2_artifact_devtools",
+      "lane": "product_artifact",
+      "objective": "Find AI-native developer/infra tools (coding, testing, DevOps, observability, security) at launch/OSS moment.",
+      "query": "(\"AI coding\" OR \"code review\" OR \"AI testing\" OR devops OR observability OR \"incident response\" OR \"AI security\") (\"just launched\" OR \"just shipped\" OR \"open sourced\" OR \"open-sourced\" OR \"now in beta\")",
+      "topics": [
+        "B"
+      ]
+    },
+    {
+      "expected_false_positives": "Job-board reposts, recruiters, and generic 'excited to start something new' with no domain fit.",
+      "expected_strong_signals": "Named ex-operator/eng announcing a new company or seeking a cofounder/founding engineer in-scope.",
+      "id": "q3_founder_infra_devtools",
+      "lane": "founder_transition",
+      "objective": "Surface credible founders/builders transitioning into AI infra or dev tools, including stealth.",
+      "query": "(agent OR \"AI infrastructure\" OR \"developer tools\" OR observability OR \"AI security\") (\"building in stealth\" OR \"left my job\" OR \"starting something new\" OR \"looking for a cofounder\" OR \"founding engineer\")",
+      "topics": [
+        "A",
+        "B"
+      ]
+    },
+    {
+      "expected_false_positives": "Aspirational 'looking for design partners' with no product, and vendor case-study marketing.",
+      "expected_strong_signals": "Founder describing a first customer / production deployment, or a user describing real usage.",
+      "id": "q4_traction_devtools",
+      "lane": "early_traction",
+      "objective": "Find AI dev/infra tools showing earliest adoption (design partners, first customers, production use).",
+      "query": "(\"AI coding\" OR \"code review\" OR devops OR observability OR \"AI security\" OR \"data engineering\") (\"design partners\" OR \"first customer\" OR \"in production\" OR \"migrated from\" OR \"users asked\")",
+      "topics": [
+        "B"
+      ]
+    },
+    {
+      "expected_false_positives": "Consulting/agency 'we automate your back office', and no-code influencer content.",
+      "expected_strong_signals": "Vertical-AI founder citing a first customer or production workflow replacing manual/service spend.",
+      "id": "q5_traction_workflows",
+      "lane": "early_traction",
+      "objective": "Find AI-native enterprise-workflow / systems-of-action products with earliest customer pull.",
+      "query": "(\"vertical AI\" OR \"workflow automation\" OR \"AI agent for\" OR \"AI copilot for\" OR \"back office\") (\"design partners\" OR \"first customer\" OR \"in production\" OR \"migrated from\")",
+      "topics": [
+        "C"
+      ]
+    },
+    {
+      "expected_false_positives": "Automation-agency promos, generic 'future of work' commentary, and SI/consulting pitches.",
+      "expected_strong_signals": "Founder announcing a vertical-AI company/launch or hiring a founding engineer for one.",
+      "id": "q6_founder_workflows",
+      "lane": "founder_transition",
+      "objective": "Surface founders launching or building (incl. stealth) AI-native enterprise-workflow companies.",
+      "query": "(\"vertical AI\" OR \"workflow automation\" OR \"AI agent for\" OR \"systems of action\" OR \"back office\") (\"building in stealth\" OR \"founding engineer\" OR \"just launched\" OR \"design partner\")",
+      "topics": [
+        "C"
+      ]
+    }
+  ]
+}

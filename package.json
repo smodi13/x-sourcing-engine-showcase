@@ -1,0 +1,29 @@
+{
+  "name": "x-sourcing-engine-showcase",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A deterministic, budget-controlled X sourcing engine demonstrated through a sanitized replay of a completed venture-sourcing run.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "15.5.21",
+    "react": "19.0.8",
+    "react-dom": "19.0.8"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.10",
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.2",
+    "eslint": "9.18.0",
+    "eslint-config-next": "15.5.21",
+    "typescript": "5.5.3"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  }
+}
